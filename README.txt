@@ -13,3 +13,7 @@ VOCAL PRIVÉ:
 Code membre par défaut: RDM5996
 Pour changer le code, ouvre script.js et modifie PRIVATE_VOICE_CODE.
 Membres autorisés: kenshin5996, c_djo, manimang0, fandeipromxtrollmod, theoherlintw.
+
+
+MISE À JOUR:
+- Ajout de maszoks dans la TEAM RDM avec 1 follower affiché.

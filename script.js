@@ -4,6 +4,7 @@ const team = [
   {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers'},
   {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers'},
   {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre', followers:'3 followers'},
+  {name:'maszoks', display:'MASZOKS', role:'Membre', followers:'1 follower'},
 ];
 
 const grid = document.getElementById('membersGrid');
