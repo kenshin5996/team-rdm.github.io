@@ -1,17 +1,8 @@
-// ==========================================================
-// CONFIG FIREBASE TEAM RDM
-// ==========================================================
-// 1) Va sur https://console.firebase.google.com
-// 2) Crée un projet
-// 3) Ajoute une application Web
-// 4) Copie les valeurs firebaseConfig ici
-// 5) Active Firestore Database en mode test
-
 window.RDM_FIREBASE_CONFIG = {
-  apiKey: "REMPLACE_MOI",
-  authDomain: "REMPLACE_MOI.firebaseapp.com",
-  projectId: "REMPLACE_MOI",
-  storageBucket: "REMPLACE_MOI.appspot.com",
-  messagingSenderId: "REMPLACE_MOI",
-  appId: "REMPLACE_MOI"
+  apiKey: "AIzaSyB04km_rnFMLL0oCnxIRT7xVCuJKNMvXw",
+  authDomain: "team-rdm-site.firebaseapp.com",
+  projectId: "team-rdm-site",
+  storageBucket: "team-rdm-site.firebasestorage.app",
+  messagingSenderId: "995665285465",
+  appId: "1:995665285465:web:ca1f40525e0b6768e1bc48"
 };
