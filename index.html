@@ -11,14 +11,7 @@
   <nav class="navbar">
     <div class="brand"><img src="assets/wolf-logo.png" alt="RDM"><span>RDM</span></div>
     <div class="links">
-      <a href="#accueil">ACCUEIL</a>
-      <a href="#equipe">ÉQUIPE</a>
-      <a href="#chaine">CHAÎNE TWITCH</a>
-      <a href="#clips">CLIPS</a>
-      <a href="#connexion">CONNEXION</a>
-      <a href="#stats">STATS</a>
-      <a href="#vocal">VOCAL PRIVÉ</a>
-      <a href="#contact">CONTACT</a>
+      <a href="#accueil">ACCUEIL</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE TWITCH</a><a href="#clips">CLIPS</a><a href="#stats">STATS</a><a href="#vocal">VOCAL PRIVÉ</a><a href="#planning">PLANNING</a><a href="#reseaux">RÉSEAUX</a><a href="#contact">CONTACT</a>
     </div>
     <a class="twitchBtn" href="https://www.twitch.tv/kenshin5996" target="_blank">Twitch</a>
   </nav>
@@ -28,30 +21,6 @@
   </header>
 
   <main>
-    <section id="connexion" class="panel authPanel">
-      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>🔐 CONNEXION MEMBRE RDM</h2></div>
-      <p class="sectionSub">Crée un compte ou connecte-toi. Le code membre est demandé seulement à l'inscription.</p>
-      <div id="authStatus" class="authStatus disconnected">Non connecté</div>
-      <div class="authGrid">
-        <div class="authBox">
-          <h3>Créer un compte</h3>
-          <input id="signupPseudo" type="text" placeholder="Pseudo Twitch" autocomplete="username">
-          <input id="signupEmail" type="email" placeholder="Email" autocomplete="email">
-          <input id="signupPassword" type="password" placeholder="Mot de passe (6 caractères minimum)" autocomplete="new-password">
-          <input id="signupCode" type="password" placeholder="Code membre" autocomplete="off">
-          <button onclick="signupMember()">S'inscrire</button>
-        </div>
-        <div class="authBox">
-          <h3>Connexion</h3>
-          <input id="loginEmail" type="email" placeholder="Email" autocomplete="email">
-          <input id="loginPassword" type="password" placeholder="Mot de passe" autocomplete="current-password">
-          <button onclick="loginMember()">Connexion</button>
-          <button class="dangerBtn" onclick="logoutMember()">Déconnexion</button>
-        </div>
-      </div>
-      <p class="clipNote">Si l'inscription bloque, le site affichera maintenant la vraie erreur Firebase.</p>
-    </section>
-
     <section id="chaine" class="panel playerPanel">
       <h2>🎮 CHAÎNE AFFICHÉE SUR LE SITE</h2>
       <p>Clique sur “Afficher sur le site” pour voir la chaîne Twitch ici.</p>
@@ -67,28 +36,33 @@
 
     <section id="clips" class="panel clipsPanel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>CLIPS DE LA TEAM RDM</h2></div>
-      <p class="sectionSub">Les meilleurs clips Twitch des membres. Les clips publiés sont enregistrés en ligne avec Firebase.</p>
+      <p class="sectionSub">Les clips publiés ici sont enregistrés dans Firebase et visibles par tout le monde.</p>
+
       <div id="publier-clip" class="clipPublishBox">
         <h3>📤 Publier un clip Twitch</h3>
-        <p>Connecte-toi, puis entre ton pseudo Twitch, le titre et le lien du clip.</p>
+        <p>Entre ton pseudo Twitch, le titre, le lien du clip et le code membre.</p>
         <div class="clipForm">
           <input id="clipStreamer" type="text" placeholder="Ton pseudo Twitch" autocomplete="off" />
           <input id="clipTitle" type="text" placeholder="Titre du clip" autocomplete="off" />
           <input id="clipUrl" type="url" placeholder="Lien du clip Twitch" autocomplete="off" />
+          <input id="clipCode" type="password" placeholder="Code membre" autocomplete="off" />
           <button onclick="publishClip()">Publier le clip</button>
+          <button class="dangerBtn" onclick="alert('Pour supprimer un clip : Firebase > Firestore > clips')">Supprimer un clip</button>
         </div>
-        <p class="clipNote">Liens acceptés : twitch.tv/chaine/clip/SLUG ou clips.twitch.tv/SLUG</p>
+        <p class="clipNote" id="firebaseStatus">Connexion Firebase...</p>
       </div>
+
       <div id="clipsGrid" class="clipsGrid"></div>
     </section>
 
-    <section id="stats" class="panel statsPanel">
+    <section id="stats" class="panel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>📊 STATISTIQUES DU SITE</h2></div>
       <p class="sectionSub">Compteur simple enregistré dans Firebase.</p>
-      <div class="statsGrid">
-        <div class="statCard"><b id="visitsTotal">0</b><span>Visites totales</span></div>
-        <div class="statCard"><b id="membersTotal">0</b><span>Comptes membres</span></div>
-        <div class="statCard"><b id="clipsTotal">0</b><span>Clips en ligne</span></div>
+      <div class="infoGrid">
+        <article class="infoCard"><h3>👀 Visites totales</h3><p id="totalVisits">0</p></article>
+        <article class="infoCard"><h3>📅 Visites aujourd’hui</h3><p id="todayVisits">0</p></article>
+        <article class="infoCard"><h3>🎬 Clips en ligne</h3><p id="onlineClipCount">0</p></article>
+        <article class="infoCard"><h3>🔥 Statut</h3><p id="statsStatus">Chargement...</p></article>
       </div>
     </section>
 
@@ -116,7 +90,7 @@
   </main>
 
   <footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
-  <script src="firebase-config.js?v=final2"></script>
-  <script src="script.js?v=final2"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

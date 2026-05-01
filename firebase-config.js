@@ -1,5 +1,3 @@
-// CONFIG FIREBASE TEAM RDM
-// Ce fichier est déjà rempli avec ton projet Firebase.
 window.RDM_FIREBASE_CONFIG = {
   apiKey: "AIzaSyB04km_rnFMLL0oCnxIRT7xVCuJKNMvXw",
   authDomain: "team-rdm-site.firebaseapp.com",
