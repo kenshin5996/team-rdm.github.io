@@ -1,27 +1,44 @@
-TEAM RDM - CONNEXION MEMBRE + STATS
+TEAM RDM - VERSION FINALE CONNEXION + CLIPS + STATS
 
-Cette version ajoute :
-- Connexion membre avec Firebase Authentication (email + mot de passe)
-- Inscription membre avec pseudo Twitch + code RDM5996
-- Publication des clips seulement pour les membres connectés
-- Compteur de visites Firestore : total + aujourd’hui
-- Compteur de comptes membres
-- Google Analytics optionnel si tu ajoutes measurementId dans firebase-config.js
+1) Envoie TOUS les fichiers sur GitHub :
+- index.html
+- script.js
+- style.css
+- firebase-config.js
+- README-CONNEXION-STATS.txt
+- dossier assets
 
-A FAIRE DANS FIREBASE :
-1) Authentication > Commencer > Email/Mot de passe > Activer > Enregistrer
-2) Firestore > Règles :
+2) Firebase Authentication :
+Authentication > Methode de connexion > Adresse e-mail/Mot de passe > Active
+
+3) Firestore > Regles : colle ceci puis Publier :
 
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /clips/{clipId} { allow read, write: if true; }
-    match /users/{userId} { allow read, write: if true; }
-    match /stats/{docId} { allow read, write: if true; }
+    match /clips/{clipId} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /visits/{visitId} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
   }
 }
 
-3) Publie tous les fichiers sur GitHub Pages.
-4) Recharge le site avec Ctrl + Shift + R.
+4) Apres upload GitHub :
+- attends le deploiement GitHub Pages vert
+- ouvre le site
+- fais CTRL + SHIFT + R
 
-IMPORTANT : ces règles sont simples pour tester. Pour un vrai site très sécurisé, il faudra des règles plus strictes.
+5) Test inscription :
+Pseudo : kenshin5996
+Code membre : RDM5996
+Mot de passe : 6 caracteres minimum
+
+Cette version affiche la vraie erreur Firebase si l'inscription bloque.
