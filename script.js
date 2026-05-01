@@ -1,5 +1,5 @@
 const team = [
-  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur', followers:'214 followers'},
+  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur', followers:'215 followers'},
   {name:'c_djo', display:'C_DJO', role:'Membre', followers:'475 followers'},
   {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers'},
   {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers'},
