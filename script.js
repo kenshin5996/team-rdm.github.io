@@ -53,25 +53,108 @@ const clips = [
 ];
 
 function clipEmbed(slug){
-  return `https://clips.twitch.tv/embed?clip=${slug}&parent=${host}&autoplay=false`;
+  return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(slug)}&parent=${host}&autoplay=false`;
 }
 
-const clipsGrid = document.getElementById('clipsGrid');
-if (clipsGrid) {
-  clips.forEach(clip => {
-    const card = document.createElement('article');
-    card.className = 'clipCard';
-    card.innerHTML = `
-      <div class="clipHeader">
-        <img src="${avatarUrl(clip.streamer)}" onerror="this.src='assets/wolf-logo.png'" alt="${clip.streamer}">
-        <div><h3>${clip.title}</h3><p>${clip.streamer}</p></div>
-      </div>
-      <iframe src="${clipEmbed(clip.slug)}" allowfullscreen="true" allow="autoplay; fullscreen"></iframe>
-      <a class="clipLink" href="${clip.url}" target="_blank">Ouvrir le clip sur Twitch</a>
-    `;
-    clipsGrid.appendChild(card);
-  });
+function cleanText(value){
+  const div = document.createElement('div');
+  div.textContent = value || '';
+  return div.innerHTML;
 }
+
+function getSavedClips(){
+  try {
+    return JSON.parse(localStorage.getItem('rdmPublishedClips') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveClips(items){
+  localStorage.setItem('rdmPublishedClips', JSON.stringify(items));
+}
+
+function extractClipSlug(url){
+  const text = (url || '').trim();
+  if (!text) return '';
+
+  // Liens acceptés :
+  // https://www.twitch.tv/chaine/clip/SLUG
+  // https://clips.twitch.tv/SLUG
+  // https://m.twitch.tv/chaine/clip/SLUG
+  const match = text.match(/(?:twitch\.tv\/[\w-]+\/clip\/|clips\.twitch\.tv\/)([A-Za-z0-9_-]+)/i);
+  return match ? match[1] : '';
+}
+
+function renderClipCard(clip){
+  const card = document.createElement('article');
+  card.className = 'clipCard';
+  card.innerHTML = `
+    <div class="clipHeader">
+      <img src="${avatarUrl(clip.streamer)}" onerror="this.src='assets/wolf-logo.png'" alt="${cleanText(clip.streamer)}">
+      <div><h3>${cleanText(clip.title)}</h3><p>${cleanText(clip.streamer)}</p></div>
+    </div>
+    <iframe src="${clipEmbed(clip.slug)}" allowfullscreen="true" allow="autoplay; fullscreen"></iframe>
+    <a class="clipLink" href="${cleanText(clip.url)}" target="_blank">Ouvrir le clip sur Twitch</a>
+  `;
+  return card;
+}
+
+function renderClips(){
+  const clipsGrid = document.getElementById('clipsGrid');
+  if (!clipsGrid) return;
+  clipsGrid.innerHTML = '';
+  [...getSavedClips(), ...clips].forEach(clip => clipsGrid.appendChild(renderClipCard(clip)));
+}
+
+function publishClip(){
+  const streamer = (document.getElementById('clipStreamer').value || '').trim().toLowerCase();
+  const title = (document.getElementById('clipTitle').value || '').trim();
+  const url = (document.getElementById('clipUrl').value || '').trim();
+  const code = (document.getElementById('clipCode').value || '').trim();
+  const slug = extractClipSlug(url);
+
+  if (!allowedVoiceMembers.includes(streamer)) {
+    alert('Accès refusé : ce pseudo n’est pas dans la TEAM RDM.');
+    return;
+  }
+  if (code !== PRIVATE_VOICE_CODE) {
+    alert('Code membre incorrect.');
+    return;
+  }
+  if (!title) {
+    alert('Ajoute un titre pour ton clip.');
+    return;
+  }
+  if (!slug) {
+    alert('Lien Twitch invalide. Mets un lien de clip comme : https://www.twitch.tv/chaine/clip/SLUG ou https://clips.twitch.tv/SLUG');
+    return;
+  }
+
+  const saved = getSavedClips();
+  if (saved.some(c => c.slug === slug) || clips.some(c => c.slug === slug)) {
+    alert('Ce clip est déjà publié.');
+    return;
+  }
+
+  saved.unshift({ streamer, title, slug, url });
+  saveClips(saved);
+  renderClips();
+
+  document.getElementById('clipTitle').value = '';
+  document.getElementById('clipUrl').value = '';
+  document.getElementById('clipCode').value = '';
+  alert('Clip publié sur ton navigateur !');
+}
+
+function clearMyPublishedClips(){
+  if (confirm('Effacer les clips ajoutés sur ce navigateur ?')) {
+    localStorage.removeItem('rdmPublishedClips');
+    renderClips();
+  }
+}
+
+renderClips();
 
 
 // Vocal privé TEAM RDM
