@@ -1,13 +1,16 @@
 TEAM RDM - VERSION SIMPLE QUI MARCHE
 
-Cette version enlève Firebase Authentication / inscription, car c'est ce qui bloquait.
-Elle garde :
-- publication de clips Twitch en ligne avec Firebase Firestore
-- compteur de visites simple
-- vocal privé avec code membre
+Cette version n'utilise PAS Firebase Authentication.
+Donc plus d'erreur auth/api-key-not-valid.
 
-IMPORTANT FIRESTORE > REGLES :
-Colle ces règles puis clique Publier :
+Fonctions :
+- publication de clips Twitch avec code membre RDM5996
+- clips sauvegardés dans Firestore collection clips
+- compteur visites sauvegardé dans Firestore collection visits
+
+Firebase requis :
+1) Firestore Database activé
+2) Règles Firestore :
 
 rules_version = '2';
 service cloud.firestore {
@@ -21,11 +24,5 @@ service cloud.firestore {
   }
 }
 
-A mettre sur GitHub :
-- index.html
-- script.js
-- style.css
-- firebase-config.js
-- dossier assets
-
-Après upload : attendre GitHub Pages vert, puis CTRL + SHIFT + R.
+Publie TOUS les fichiers sur GitHub : index.html, script.js, style.css, firebase-config.js, assets.
+Puis recharge avec Ctrl + Shift + R.

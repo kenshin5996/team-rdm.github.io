@@ -11,7 +11,7 @@
   <nav class="navbar">
     <div class="brand"><img src="assets/wolf-logo.png" alt="RDM"><span>RDM</span></div>
     <div class="links">
-      <a href="#accueil">ACCUEIL</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE TWITCH</a><a href="#clips">CLIPS</a><a href="#stats">STATS</a><a href="#vocal">VOCAL PRIVÉ</a><a href="#planning">PLANNING</a><a href="#reseaux">RÉSEAUX</a><a href="#contact">CONTACT</a>
+      <a href="#accueil">ACCUEIL</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE TWITCH</a><a href="#clips">CLIPS</a><a href="#stats">STATS</a><a href="#vocal">VOCAL PRIVÉ</a><a href="#contact">CONTACT</a>
     </div>
     <a class="twitchBtn" href="https://www.twitch.tv/kenshin5996" target="_blank">Twitch</a>
   </nav>
@@ -36,33 +36,32 @@
 
     <section id="clips" class="panel clipsPanel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>CLIPS DE LA TEAM RDM</h2></div>
-      <p class="sectionSub">Les clips publiés ici sont enregistrés dans Firebase et visibles par tout le monde.</p>
+      <p class="sectionSub">Les clips publiés sont enregistrés dans Firebase et visibles par toute la team.</p>
 
-      <div id="publier-clip" class="clipPublishBox">
+      <div class="clipPublishBox">
         <h3>📤 Publier un clip Twitch</h3>
-        <p>Entre ton pseudo Twitch, le titre, le lien du clip et le code membre.</p>
+        <p>Entre ton pseudo Twitch, un titre, le lien du clip et le code membre.</p>
         <div class="clipForm">
           <input id="clipStreamer" type="text" placeholder="Ton pseudo Twitch" autocomplete="off" />
           <input id="clipTitle" type="text" placeholder="Titre du clip" autocomplete="off" />
           <input id="clipUrl" type="url" placeholder="Lien du clip Twitch" autocomplete="off" />
           <input id="clipCode" type="password" placeholder="Code membre" autocomplete="off" />
           <button onclick="publishClip()">Publier le clip</button>
-          <button class="dangerBtn" onclick="alert('Pour supprimer un clip : Firebase > Firestore > clips')">Supprimer un clip</button>
         </div>
-        <p class="clipNote" id="firebaseStatus">Connexion Firebase...</p>
+        <p class="clipNote">État Firebase : <b id="firebaseStatus">Chargement...</b></p>
       </div>
 
       <div id="clipsGrid" class="clipsGrid"></div>
     </section>
 
-    <section id="stats" class="panel">
+    <section id="stats" class="panel statsPanel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>📊 STATISTIQUES DU SITE</h2></div>
-      <p class="sectionSub">Compteur simple enregistré dans Firebase.</p>
+      <p class="sectionSub">Compteur simple enregistré dans Firestore.</p>
       <div class="infoGrid">
-        <article class="infoCard"><h3>👀 Visites totales</h3><p id="totalVisits">0</p></article>
-        <article class="infoCard"><h3>📅 Visites aujourd’hui</h3><p id="todayVisits">0</p></article>
-        <article class="infoCard"><h3>🎬 Clips en ligne</h3><p id="onlineClipCount">0</p></article>
-        <article class="infoCard"><h3>🔥 Statut</h3><p id="statsStatus">Chargement...</p></article>
+        <article class="infoCard"><h3>Visites totales</h3><p><b id="totalVisits">0</b></p></article>
+        <article class="infoCard"><h3>Visites aujourd’hui</h3><p><b id="todayVisits">0</b></p></article>
+        <article class="infoCard"><h3>Clips en ligne</h3><p><b id="onlineClipCount">0</b></p></article>
+        <article class="infoCard"><h3>État</h3><p><b id="statsStatus">Chargement...</b></p></article>
       </div>
     </section>
 
@@ -81,11 +80,11 @@
       </div>
     </section>
 
-    <section id="planning" class="infoGrid">
+    <section id="contact" class="infoGrid">
       <article class="infoCard"><h3>📅 Planning</h3><p>Les lives de la team RDM apparaissent ici quand vous lancez vos streams.</p></article>
       <article class="infoCard"><h3>🎯 Mission</h3><p>Créer une team soudée, partager du gaming et soutenir les chaînes de chaque membre.</p></article>
-      <article id="reseaux" class="infoCard"><h3>📱 Réseaux</h3><p>Twitch, TikTok, YouTube et Twitter peuvent être ajoutés ici.</p></article>
-      <article id="contact" class="infoCard"><h3>✉️ Contact</h3><p>Créateur officiel : <b>kenshin5996</b><br>Email : kenshin5996pro@gmail.com</p></article>
+      <article class="infoCard"><h3>📱 Réseaux</h3><p>Twitch, TikTok, YouTube et Twitter peuvent être ajoutés ici.</p></article>
+      <article class="infoCard"><h3>✉️ Contact</h3><p>Créateur officiel : <b>kenshin5996</b><br>Email : kenshin5996pro@gmail.com</p></article>
     </section>
   </main>
 
