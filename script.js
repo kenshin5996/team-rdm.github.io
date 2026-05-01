@@ -60,6 +60,10 @@ let onlineClips = [];
 let firebaseReady = false;
 let firebaseTools = null;
 let clipsCollectionRef = null;
+let auth = null;
+let currentMember = null;
+let usersCollectionRef = null;
+let statsDocRef = null;
 
 function clipEmbed(slug){
   return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(slug)}&parent=${host}&autoplay=false`;
@@ -115,16 +119,32 @@ async function initFirebaseClips(){
     console.warn('Firebase non configuré : remplis firebase-config.js pour publier les clips en ligne.');
     return;
   }
-
   try {
     const appModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js');
     const dbModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js');
-
+    const authModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js');
     const app = appModule.initializeApp(config);
     const db = dbModule.getFirestore(app);
+    auth = authModule.getAuth(app);
+
+    if (config.measurementId) {
+      try {
+        const analyticsModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js');
+        analyticsModule.getAnalytics(app);
+      } catch (analyticsError) {
+        console.warn('Analytics non chargé :', analyticsError);
+      }
+    }
+
     clipsCollectionRef = dbModule.collection(db, 'clips');
-    firebaseTools = dbModule;
+    usersCollectionRef = dbModule.collection(db, 'users');
+    statsDocRef = dbModule.doc(db, 'stats', 'site');
+    firebaseTools = { ...dbModule, ...authModule };
     firebaseReady = true;
+
+    setupAuthListener();
+    trackVisit();
+    listenStats();
 
     const q = dbModule.query(clipsCollectionRef, dbModule.orderBy('createdAt', 'desc'));
     dbModule.onSnapshot(q, snapshot => {
@@ -136,23 +156,151 @@ async function initFirebaseClips(){
     });
   } catch (error) {
     console.error(error);
-    alert('Erreur Firebase : vérifie firebase-config.js et que Firestore est activé.');
+    alert('Erreur Firebase : vérifie firebase-config.js, Authentication et Firestore.');
   }
 }
 
-async function publishClip(){
-  const streamer = (document.getElementById('clipStreamer').value || '').trim().toLowerCase();
-  const title = (document.getElementById('clipTitle').value || '').trim();
-  const url = (document.getElementById('clipUrl').value || '').trim();
-  const code = (document.getElementById('clipCode').value || '').trim();
-  const slug = extractClipSlug(url);
+function updateAuthStatus(){
+  const box = document.getElementById('authStatus');
+  if (!box) return;
+  if (currentMember) {
+    box.textContent = `Connecté : ${currentMember.pseudo} (${currentMember.email})`;
+    box.classList.add('connected');
+  } else {
+    box.textContent = 'Non connecté';
+    box.classList.remove('connected');
+  }
+}
 
-  if (!allowedVoiceMembers.includes(streamer)) {
+function setupAuthListener(){
+  if (!auth || !firebaseTools) return;
+  firebaseTools.onAuthStateChanged(auth, async user => {
+    if (!user) {
+      currentMember = null;
+      updateAuthStatus();
+      return;
+    }
+    try {
+      const userRef = firebaseTools.doc(usersCollectionRef, user.uid);
+      const snap = await firebaseTools.getDoc(userRef);
+      currentMember = snap.exists() ? snap.data() : { email: user.email, pseudo: user.email };
+      currentMember.uid = user.uid;
+      currentMember.email = user.email;
+      updateAuthStatus();
+    } catch (error) {
+      console.error(error);
+      currentMember = { uid: user.uid, email: user.email, pseudo: user.email };
+      updateAuthStatus();
+    }
+  });
+}
+
+async function signUpMember(){
+  if (!firebaseReady || !auth || !firebaseTools) {
+    alert('Firebase n’est pas prêt. Vérifie firebase-config.js.');
+    return;
+  }
+  const pseudo = (document.getElementById('signupPseudo').value || '').trim().toLowerCase();
+  const email = (document.getElementById('signupEmail').value || '').trim();
+  const password = (document.getElementById('signupPassword').value || '').trim();
+  const code = (document.getElementById('signupCode').value || '').trim();
+
+  if (!allowedVoiceMembers.includes(pseudo)) {
     alert('Accès refusé : ce pseudo n’est pas dans la TEAM RDM.');
     return;
   }
   if (code !== PRIVATE_VOICE_CODE) {
     alert('Code membre incorrect.');
+    return;
+  }
+  if (!email || password.length < 6) {
+    alert('Mets un email valide et un mot de passe de 6 caractères minimum.');
+    return;
+  }
+
+  try {
+    const result = await firebaseTools.createUserWithEmailAndPassword(auth, email, password);
+    await firebaseTools.setDoc(firebaseTools.doc(usersCollectionRef, result.user.uid), {
+      pseudo,
+      email,
+      role: pseudo === 'kenshin5996' ? 'admin' : 'membre',
+      createdAt: firebaseTools.serverTimestamp()
+    });
+    await firebaseTools.setDoc(statsDocRef, { members: firebaseTools.increment(1) }, { merge: true });
+    alert('Compte créé et connecté !');
+  } catch (error) {
+    console.error(error);
+    alert('Inscription impossible : active Email/Password dans Firebase Authentication.');
+  }
+}
+
+async function loginMember(){
+  if (!firebaseReady || !auth || !firebaseTools) {
+    alert('Firebase n’est pas prêt.');
+    return;
+  }
+  const email = (document.getElementById('loginEmail').value || '').trim();
+  const password = (document.getElementById('loginPassword').value || '').trim();
+  try {
+    await firebaseTools.signInWithEmailAndPassword(auth, email, password);
+    alert('Connecté !');
+  } catch (error) {
+    console.error(error);
+    alert('Connexion impossible : email ou mot de passe incorrect, ou Authentication non activé.');
+  }
+}
+
+async function logoutMember(){
+  if (!auth || !firebaseTools) return;
+  await firebaseTools.signOut(auth);
+  alert('Déconnecté.');
+}
+
+async function trackVisit(){
+  if (!firebaseReady || !firebaseTools || !statsDocRef) return;
+  const today = new Date().toISOString().slice(0, 10);
+  const key = `rdm_visit_${today}`;
+  if (localStorage.getItem(key)) return;
+  localStorage.setItem(key, '1');
+  try {
+    await firebaseTools.setDoc(statsDocRef, {
+      totalVisits: firebaseTools.increment(1),
+      [`days.${today}`]: firebaseTools.increment(1),
+      lastVisitAt: firebaseTools.serverTimestamp()
+    }, { merge: true });
+  } catch (error) {
+    console.warn('Compteur visites non mis à jour :', error);
+  }
+}
+
+function listenStats(){
+  if (!firebaseReady || !firebaseTools || !statsDocRef) return;
+  firebaseTools.onSnapshot(statsDocRef, snap => {
+    const data = snap.exists() ? snap.data() : {};
+    const today = new Date().toISOString().slice(0, 10);
+    const totalEl = document.getElementById('statTotalVisits');
+    const todayEl = document.getElementById('statTodayVisits');
+    const membersEl = document.getElementById('statMembers');
+    if (totalEl) totalEl.textContent = data.totalVisits || 0;
+    if (todayEl) todayEl.textContent = data.days && data.days[today] ? data.days[today] : 0;
+    if (membersEl) membersEl.textContent = data.members || 0;
+  });
+}
+
+
+async function publishClip(){
+  const title = (document.getElementById('clipTitle').value || '').trim();
+  const url = (document.getElementById('clipUrl').value || '').trim();
+  const slug = extractClipSlug(url);
+
+  if (!currentMember) {
+    alert('Connecte-toi avant de publier un clip.');
+    document.getElementById('connexion').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  const streamer = (currentMember.pseudo || '').toLowerCase();
+  if (!allowedVoiceMembers.includes(streamer)) {
+    alert('Ton compte n’est pas autorisé à publier.');
     return;
   }
   if (!title) {
@@ -178,18 +326,19 @@ async function publishClip(){
       title,
       slug,
       url,
+      uid: currentMember.uid || '',
       createdAt: firebaseTools.serverTimestamp()
     });
 
     document.getElementById('clipTitle').value = '';
     document.getElementById('clipUrl').value = '';
-    document.getElementById('clipCode').value = '';
     alert('Clip publié en ligne ! Toute la team peut le voir.');
   } catch (error) {
     console.error(error);
     alert('Impossible de publier : vérifie les règles Firestore.');
   }
 }
+
 
 function clearMyPublishedClips(){
   alert('Avec Firebase, les clips sont en ligne. Pour supprimer un clip, va dans Firebase > Firestore Database > collection clips.');
