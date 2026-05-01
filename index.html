@@ -51,7 +51,7 @@
           <button onclick="publishClip()">Publier le clip</button>
           <button class="dangerBtn" onclick="clearMyPublishedClips()">Effacer mes clips ajoutés</button>
         </div>
-        <p class="clipNote">Important : cette version statique enregistre les clips publiés dans le navigateur du visiteur. Pour une publication visible par toute la team, il faudra ajouter une vraie base de données.</p>
+        <p class="clipNote">Les clips publiés sont enregistrés en ligne avec Firebase et visibles par toute la team.</p>
       </div>
 
       <div id="clipsGrid" class="clipsGrid"></div>
@@ -86,6 +86,7 @@
   </main>
 
   <footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
+  <script src="firebase-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

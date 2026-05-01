@@ -47,10 +47,19 @@ const clips = [
   { streamer: 'kenshin5996', title: 'Clip kenshin5996 #1', slug: 'BoxySpineyStrawberryTBTacoRight-RVw4ImPXBY7cYFXY', url: 'https://www.twitch.tv/kenshin5996/clip/BoxySpineyStrawberryTBTacoRight-RVw4ImPXBY7cYFXY' },
   { streamer: 'kenshin5996', title: 'Clip kenshin5996 #2', slug: 'AmericanFunDinosaurKeyboardCat-tfmv5WLOv_v63LjV', url: 'https://www.twitch.tv/kenshin5996/clip/AmericanFunDinosaurKeyboardCat-tfmv5WLOv_v63LjV' },
   { streamer: 'c_djo', title: 'Clip c_djo #1', slug: 'EsteemedTriangularShingleGingerPower-yBSuvPj5I32SXtzH', url: 'https://www.twitch.tv/c_djo/clip/EsteemedTriangularShingleGingerPower-yBSuvPj5I32SXtzH' },
-{ streamer: 'c_djo', title: 'Clip c_djo #2', slug: 'FairCuriousWolfDeIlluminati-7YO9dvECQFCYz5iY', url: 'https://www.twitch.tv/c_djo/clip/FairCuriousWolfDeIlluminati-7YO9dvECQFCYz5iY' },
-
-{ streamer: 'kenshin5996', title: 'Clip kenshin5996 #3', slug: 'CrowdedArtsyYogurtDxAbomb-ovDudfB44BUi0boP', url: 'https://www.twitch.tv/kenshin5996/clip/CrowdedArtsyYogurtDxAbomb-ovDudfB44BUi0boP' },
+  { streamer: 'c_djo', title: 'Clip c_djo #2', slug: 'FairCuriousWolfDeIlluminati-7YO9dvECQFCYz5iY', url: 'https://www.twitch.tv/c_djo/clip/FairCuriousWolfDeIlluminati-7YO9dvECQFCYz5iY' },
+  { streamer: 'kenshin5996', title: 'Clip kenshin5996 #3', slug: 'CrowdedArtsyYogurtDxAbomb-ovDudfB44BUi0boP', url: 'https://www.twitch.tv/kenshin5996/clip/CrowdedArtsyYogurtDxAbomb-ovDudfB44BUi0boP' },
 ];
+
+// Code membre utilisé pour publier un clip et rejoindre le vocal.
+const PRIVATE_VOICE_CODE = 'RDM5996';
+const PRIVATE_VOICE_ROOM = 'TeamRDMVocalPriveKenshin5996';
+const allowedVoiceMembers = team.map(m => m.name.toLowerCase());
+
+let onlineClips = [];
+let firebaseReady = false;
+let firebaseTools = null;
+let clipsCollectionRef = null;
 
 function clipEmbed(slug){
   return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(slug)}&parent=${host}&autoplay=false`;
@@ -60,18 +69,6 @@ function cleanText(value){
   const div = document.createElement('div');
   div.textContent = value || '';
   return div.innerHTML;
-}
-
-function getSavedClips(){
-  try {
-    return JSON.parse(localStorage.getItem('rdmPublishedClips') || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveClips(items){
-  localStorage.setItem('rdmPublishedClips', JSON.stringify(items));
 }
 
 function extractClipSlug(url){
@@ -104,10 +101,46 @@ function renderClips(){
   const clipsGrid = document.getElementById('clipsGrid');
   if (!clipsGrid) return;
   clipsGrid.innerHTML = '';
-  [...getSavedClips(), ...clips].forEach(clip => clipsGrid.appendChild(renderClipCard(clip)));
+  [...onlineClips, ...clips].forEach(clip => clipsGrid.appendChild(renderClipCard(clip)));
 }
 
-function publishClip(){
+function firebaseConfigIsFilled(config){
+  return config && config.apiKey && !String(config.apiKey).includes('REMPLACE_MOI') && config.projectId && !String(config.projectId).includes('REMPLACE_MOI');
+}
+
+async function initFirebaseClips(){
+  renderClips();
+  const config = window.RDM_FIREBASE_CONFIG;
+  if (!firebaseConfigIsFilled(config)) {
+    console.warn('Firebase non configuré : remplis firebase-config.js pour publier les clips en ligne.');
+    return;
+  }
+
+  try {
+    const appModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js');
+    const dbModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js');
+
+    const app = appModule.initializeApp(config);
+    const db = dbModule.getFirestore(app);
+    clipsCollectionRef = dbModule.collection(db, 'clips');
+    firebaseTools = dbModule;
+    firebaseReady = true;
+
+    const q = dbModule.query(clipsCollectionRef, dbModule.orderBy('createdAt', 'desc'));
+    dbModule.onSnapshot(q, snapshot => {
+      onlineClips = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderClips();
+    }, error => {
+      console.error(error);
+      alert('Firebase est connecté, mais Firestore refuse la lecture. Vérifie les règles Firestore.');
+    });
+  } catch (error) {
+    console.error(error);
+    alert('Erreur Firebase : vérifie firebase-config.js et que Firestore est activé.');
+  }
+}
+
+async function publishClip(){
   const streamer = (document.getElementById('clipStreamer').value || '').trim().toLowerCase();
   const title = (document.getElementById('clipTitle').value || '').trim();
   const url = (document.getElementById('clipUrl').value || '').trim();
@@ -130,38 +163,42 @@ function publishClip(){
     alert('Lien Twitch invalide. Mets un lien de clip comme : https://www.twitch.tv/chaine/clip/SLUG ou https://clips.twitch.tv/SLUG');
     return;
   }
-
-  const saved = getSavedClips();
-  if (saved.some(c => c.slug === slug) || clips.some(c => c.slug === slug)) {
+  if (onlineClips.some(c => c.slug === slug) || clips.some(c => c.slug === slug)) {
     alert('Ce clip est déjà publié.');
     return;
   }
+  if (!firebaseReady || !clipsCollectionRef || !firebaseTools) {
+    alert('Firebase n’est pas encore configuré. Remplis firebase-config.js puis republie le site.');
+    return;
+  }
 
-  saved.unshift({ streamer, title, slug, url });
-  saveClips(saved);
-  renderClips();
+  try {
+    await firebaseTools.addDoc(clipsCollectionRef, {
+      streamer,
+      title,
+      slug,
+      url,
+      createdAt: firebaseTools.serverTimestamp()
+    });
 
-  document.getElementById('clipTitle').value = '';
-  document.getElementById('clipUrl').value = '';
-  document.getElementById('clipCode').value = '';
-  alert('Clip publié sur ton navigateur !');
-}
-
-function clearMyPublishedClips(){
-  if (confirm('Effacer les clips ajoutés sur ce navigateur ?')) {
-    localStorage.removeItem('rdmPublishedClips');
-    renderClips();
+    document.getElementById('clipTitle').value = '';
+    document.getElementById('clipUrl').value = '';
+    document.getElementById('clipCode').value = '';
+    alert('Clip publié en ligne ! Toute la team peut le voir.');
+  } catch (error) {
+    console.error(error);
+    alert('Impossible de publier : vérifie les règles Firestore.');
   }
 }
 
-renderClips();
+function clearMyPublishedClips(){
+  alert('Avec Firebase, les clips sont en ligne. Pour supprimer un clip, va dans Firebase > Firestore Database > collection clips.');
+}
 
+initFirebaseClips();
 
 // Vocal privé TEAM RDM
-// Pour changer le code membre, modifie la ligne PRIVATE_VOICE_CODE.
-const PRIVATE_VOICE_CODE = 'RDM5996';
-const PRIVATE_VOICE_ROOM = 'TeamRDMVocalPriveKenshin5996';
-const allowedVoiceMembers = team.map(m => m.name.toLowerCase());
+// Pour changer le code membre, modifie la ligne PRIVATE_VOICE_CODE plus haut.
 
 function joinPrivateVoice(){
   const nameInput = document.getElementById('voiceName');
