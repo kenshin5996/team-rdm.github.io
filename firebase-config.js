@@ -5,6 +5,4 @@ window.RDM_FIREBASE_CONFIG = {
   storageBucket: "team-rdm-site.firebasestorage.app",
   messagingSenderId: "995665285465",
   appId: "1:995665285465:web:ca1f40525e0b6768e1bc48"
-  // Pour Google Analytics, ajoute ici measurementId si Firebase te le donne.
-  // Exemple : measurementId: "G-XXXXXXXXXX"
 };
