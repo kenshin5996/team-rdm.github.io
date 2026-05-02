@@ -1,10 +1,10 @@
 const team = [
-  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur', followers:'215 followers'},
-  {name:'c_djo', display:'C_DJO', role:'Membre', followers:'475 followers'},
-  {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers'},
-  {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers'},
-  {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre', followers:'3 followers'},
-  {name:'maszoks', display:'MASZOKS', role:'Membre', followers:'1 follower'},
+  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur'},
+  {name:'c_djo', display:'C_DJO', role:'Membre'},
+  {name:'manimang0', display:'MANIMANG0', role:'Membre'},
+  {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre'},
+  {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre'},
+  {name:'maszoks', display:'MASZOKS', role:'Membre'},
 ];
 
 const PRIVATE_VOICE_CODE = 'RDM5996';
@@ -38,6 +38,28 @@ function showChannel(name, display){
 }
 function openTwitch(name){ window.open(`https://www.twitch.tv/${name}`, '_blank'); }
 
+async function checkLiveStatus(member){
+  const btn = $(`live-${member.name}`);
+  if (!btn) return;
+  btn.textContent = '⏳ Vérification...';
+  try {
+    const response = await fetch(`https://decapi.me/twitch/uptime/${member.name}?_=${Date.now()}`, { cache: 'no-store' });
+    const text = (await response.text()).toLowerCase();
+    const isOffline = text.includes('offline') || text.includes('not live') || text.includes('does not exist');
+    if (isOffline) {
+      btn.textContent = '⚫ Hors live';
+      btn.className = 'liveStatus offline';
+    } else {
+      btn.textContent = '🔴 En live';
+      btn.className = 'liveStatus online';
+    }
+  } catch (err) {
+    btn.textContent = 'Voir le live';
+    btn.className = 'liveStatus offline';
+  }
+}
+function refreshLiveStatuses(){ team.forEach(checkLiveStatus); }
+
 function renderMembers(){
   const grid = $('membersGrid');
   if (!grid) return;
@@ -49,7 +71,7 @@ function renderMembers(){
       <span class="badge ${member.role === 'Créateur' ? 'creator' : ''}">${member.role}</span>
       <img class="avatar" src="${avatarUrl(member.name)}" alt="Profil Twitch ${member.display}" onerror="this.src='assets/wolf-logo.png'" />
       <h3 title="${member.display}">${member.display}</h3>
-      <p class="followers">${member.followers}</p>
+      <button id="live-${member.name}" class="liveStatus offline" onclick="openTwitch('${member.name}')">⚫ Hors live</button>
       <p class="status">● Profil Twitch</p>
       <button onclick="showChannel('${member.name}', '${member.display}')">Afficher sur le site</button>
       <button class="secondary" onclick="openTwitch('${member.name}')">Ouvrir Twitch</button>`;
@@ -181,5 +203,7 @@ function joinPrivateVoice(){
 function leavePrivateVoice(){ $('voiceFrame').src = ''; $('voiceRoom').style.display = 'none'; }
 
 renderMembers();
+refreshLiveStatuses();
+setInterval(refreshLiveStatuses, 120000);
 showChannel('kenshin5996', 'KENSHIN5996');
 initFirebase();
