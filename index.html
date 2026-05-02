@@ -11,7 +11,7 @@
   <nav class="navbar">
     <div class="brand"><img src="assets/wolf-logo.png" alt="RDM"><span>RDM</span></div>
     <div class="links">
-      <a href="#accueil">ACCUEIL</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE TWITCH</a><a href="#clips">CLIPS</a><a href="#stats">STATS</a><a href="#vocal">VOCAL PRIVÉ</a><a href="#contact">CONTACT</a>
+      <a href="#accueil">ACCUEIL</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE TWITCH</a><a href="#clips">CLIPS</a><a href="#boutique">BOUTIQUE</a><a href="#stats">STATS</a><a href="#vocal">VOCAL PRIVÉ</a><a href="#contact">CONTACT</a>
     </div>
     <a class="twitchBtn" href="https://www.twitch.tv/kenshin5996" target="_blank">Twitch</a>
   </nav>
@@ -52,6 +52,49 @@
       </div>
 
       <div id="clipsGrid" class="clipsGrid"></div>
+    </section>
+
+
+    <section id="boutique" class="panel boutiquePanel">
+      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>🛒 PETITE BOUTIQUE RDM</h2></div>
+      <p class="sectionSub">Stickers PS5 TEAM RDM Edition — commande simple avec ticket + paiement sécurisé Stripe quand disponible.</p>
+
+      <div class="miniShop">
+        <article class="productCard">
+          <img src="assets/rdm-stickers-ps5-cover.png" alt="Stickers PS5 TEAM RDM Edition">
+          <div class="productInfo">
+            <span class="productBadge" id="orderStatus">Bientôt disponible 🚧</span>
+            <h3>Pack Stickers PS5 TEAM RDM</h3>
+            <p>Cover console PS5 + DualSense + mini logos bonus. Choisis ta version avant d’envoyer le ticket.</p>
+            <p class="price">Prix : à définir</p>
+          </div>
+        </article>
+
+        <article class="orderBox">
+          <h3>🎟️ Ticket de commande</h3>
+          <p>La personne remplit ses infos de livraison. Quand la vente est active, elle sera envoyée vers Stripe pour payer par carte.</p>
+
+          <div class="orderForm">
+            <input id="orderPseudo" type="text" placeholder="Pseudo" autocomplete="nickname" />
+            <input id="orderEmail" type="email" placeholder="Email" autocomplete="email" />
+            <input id="orderPhone" type="tel" placeholder="Téléphone (optionnel)" autocomplete="tel" />
+            <select id="orderVersion">
+              <option value="PS5 Digital">PS5 Digital sans lecteur</option>
+              <option value="PS5 Lecteur disque">PS5 avec lecteur disque</option>
+            </select>
+            <input id="orderFullName" type="text" placeholder="Nom / prénom pour livraison" autocomplete="name" />
+            <input id="orderAddress" type="text" placeholder="Adresse maison ou destination" autocomplete="street-address" />
+            <input id="orderPostalCode" type="text" placeholder="Code postal" autocomplete="postal-code" />
+            <input id="orderCity" type="text" placeholder="Ville" autocomplete="address-level2" />
+            <input id="orderCountry" type="text" placeholder="Pays" value="France" autocomplete="country-name" />
+            <textarea id="orderMessage" placeholder="Message / précision livraison (optionnel)"></textarea>
+            <button id="orderButton" onclick="sendOrder()">Demande / ticket de réservation</button>
+          </div>
+
+          <p class="secureText">🔒 <span id="paymentInfo">Le produit n’est pas encore en vente. Le formulaire crée un ticket de demande sans paiement.</span></p>
+          <p class="ticketText" id="orderTicket"></p>
+        </article>
+      </div>
     </section>
 
     <section id="stats" class="panel statsPanel">

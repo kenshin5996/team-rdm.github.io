@@ -22,8 +22,15 @@ const defaultClips = [
 
 let onlineClips = [];
 let dbTools = null;
+let firestoreDb = null;
 let clipsCollectionRef = null;
+let ordersCollectionRef = null;
 let firebaseReady = false;
+
+// Mets ici ton lien Stripe Payment Link quand ton produit est prêt.
+// Exemple : const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/xxxx';
+const STRIPE_PAYMENT_LINK = '';
+const SHOP_AVAILABLE = false;
 
 function $(id){ return document.getElementById(id); }
 function avatarUrl(name){ return `https://unavatar.io/twitch/${name}`; }
@@ -102,7 +109,9 @@ async function initFirebase(){
     const app = appModule.initializeApp(window.RDM_FIREBASE_CONFIG);
     const db = fs.getFirestore(app);
     dbTools = fs;
+    firestoreDb = db;
     clipsCollectionRef = fs.collection(db, 'clips');
+    ordersCollectionRef = fs.collection(db, 'orders');
     firebaseReady = true;
     $('firebaseStatus').textContent = 'Firebase connecté ✅';
     $('statsStatus').textContent = 'Connecté ✅';
@@ -120,6 +129,7 @@ async function initFirebase(){
     console.error(err);
     $('firebaseStatus').textContent = 'Erreur Firebase. Vérifie les règles Firestore.';
     $('statsStatus').textContent = 'Erreur Firebase';
+    if ($('orderStatus')) $('orderStatus').textContent = 'Firebase non connecté';
   }
 }
 
@@ -168,6 +178,79 @@ async function publishClip(){
   }
 }
 
+
+function setShopAvailability(){
+  const btn = $('orderButton');
+  const payInfo = $('paymentInfo');
+  if ($('orderStatus')) $('orderStatus').textContent = SHOP_AVAILABLE ? 'Disponible ✅' : 'Bientôt disponible 🚧';
+  if (!btn) return;
+  btn.textContent = SHOP_AVAILABLE ? 'Commander et payer par carte' : 'Demande / ticket de réservation';
+  if (payInfo) payInfo.textContent = SHOP_AVAILABLE
+    ? 'Paiement sécurisé par Stripe. Aucune carte bancaire n’est stockée sur le site TEAM RDM.'
+    : 'Le produit n’est pas encore en vente. Le formulaire crée un ticket de demande sans paiement.';
+}
+
+function validEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+function orderValue(id){ const el = $(id); return el ? (el.value || '').trim() : ''; }
+
+async function sendOrder(){
+  const pseudo = orderValue('orderPseudo');
+  const email = orderValue('orderEmail');
+  const phone = orderValue('orderPhone');
+  const version = orderValue('orderVersion');
+  const fullName = orderValue('orderFullName');
+  const address = orderValue('orderAddress');
+  const postalCode = orderValue('orderPostalCode');
+  const city = orderValue('orderCity');
+  const country = orderValue('orderCountry') || 'France';
+  const message = orderValue('orderMessage');
+
+  if (!pseudo || !email || !fullName || !address || !postalCode || !city) {
+    return alert('Remplis pseudo, email, nom, adresse, code postal et ville.');
+  }
+  if (!validEmail(email)) return alert('Adresse email invalide.');
+  if (!firebaseReady || !dbTools || !ordersCollectionRef) return alert('Firebase pas encore prêt. Recharge la page.');
+
+  try {
+    const order = {
+      status: SHOP_AVAILABLE ? 'en_attente_paiement' : 'reservation_bientot_disponible',
+      product: 'Sticker PS5 TEAM RDM Edition',
+      version,
+      pseudo,
+      email,
+      phone,
+      fullName,
+      address,
+      postalCode,
+      city,
+      country,
+      message,
+      paymentProvider: SHOP_AVAILABLE ? 'Stripe Payment Link' : 'Aucun paiement',
+      createdAt: dbTools.serverTimestamp()
+    };
+    const ref = await dbTools.addDoc(ordersCollectionRef, order);
+
+    ['orderPseudo','orderEmail','orderPhone','orderFullName','orderAddress','orderPostalCode','orderCity','orderMessage'].forEach(id => { if ($(id)) $(id).value = ''; });
+    if ($('orderTicket')) $('orderTicket').textContent = 'Ticket commande créé : ' + ref.id;
+
+    if (SHOP_AVAILABLE) {
+      if (!STRIPE_PAYMENT_LINK) {
+        alert('Ticket créé ✅ Ajoute ton lien Stripe dans script.js pour activer le paiement par carte. Ticket : ' + ref.id);
+        return;
+      }
+      const sep = STRIPE_PAYMENT_LINK.includes('?') ? '&' : '?';
+      const payUrl = STRIPE_PAYMENT_LINK + sep + 'prefilled_email=' + encodeURIComponent(email) + '&client_reference_id=' + encodeURIComponent(ref.id);
+      window.location.href = payUrl;
+      return;
+    }
+
+    alert('Ticket enregistré ✅ Tu pourras contacter la personne quand les stickers seront disponibles.');
+  } catch (err) {
+    console.error(err);
+    alert('Impossible d’enregistrer la commande. Vérifie les règles Firestore pour orders.');
+  }
+}
+
 function joinPrivateVoice(){
   const pseudo = ($('voiceName').value || '').trim().toLowerCase();
   const code = ($('voiceCode').value || '').trim();
@@ -181,5 +264,6 @@ function joinPrivateVoice(){
 function leavePrivateVoice(){ $('voiceFrame').src = ''; $('voiceRoom').style.display = 'none'; }
 
 renderMembers();
+setShopAvailability();
 showChannel('kenshin5996', 'KENSHIN5996');
 initFirebase();
