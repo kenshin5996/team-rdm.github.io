@@ -1,19 +1,25 @@
-TEAM RDM - PACK MODIFIÉ
+TEAM RDM - SITE PROPRE FINAL
 
-Ajouts demandés :
-- maszoks ajouté dans la TEAM RDM : https://www.twitch.tv/maszoks
-- système EN DIRECT / HORS LIVE pour les membres Twitch
-- compteur de visiteurs : personnes en ligne, visites totales, visites aujourd'hui
-- système pour poster des clips avec : identifiant Twitch, titre du clip, lien du clip, mot de passe RDM5996
+Corrections incluses :
+- Site refait proprement et responsive
+- MASZOKS ajouté une seule fois dans l'équipe
+- Logo MASZOKS ajouté dans assets/maszoks.png
+- Section LIVE propre : affiche seulement les membres en direct, pas de doublons
+- Bouton "Actualiser" et vérification live automatique toutes les 2 minutes
+- Lecteur Twitch intégré
+- Clips avec identifiant Twitch + titre + lien du clip + mot de passe RDM5996
+- Compteur visiteurs : personnes en ligne, visites totales, visites aujourd'hui
+- Vocal privé avec code RDM5996
 
 Upload GitHub Pages :
-1) Envoie index.html, script.js, style.css, firebase-config.js et le dossier assets à la racine du dépôt.
-2) Dans GitHub > Settings > Pages : Branch main / root.
-3) Attends le déploiement vert.
-4) Recharge le site avec Ctrl + Shift + R.
+1) Supprime les anciens fichiers du dépôt si besoin.
+2) Envoie TOUT le contenu du dossier à la racine du dépôt :
+   index.html, script.js, style.css, firebase-config.js, start.bat, README.txt et le dossier assets.
+3) GitHub > Settings > Pages : Source = Deploy from a branch / Branch = main / Folder = / root.
+4) Attends le déploiement vert.
+5) Ouvre ton site puis fais CTRL + SHIFT + R.
 
-Firebase / Firestore requis pour les clips et le compteur visiteurs :
-Colle ces règles dans Firestore > Règles puis Publier :
+Règles Firebase / Firestore nécessaires pour clips + visiteurs :
 
 rules_version = '2';
 service cloud.firestore {
@@ -24,4 +30,5 @@ service cloud.firestore {
   }
 }
 
-Code membre / mot de passe clips : RDM5996
+Mot de passe clips et vocal : RDM5996
+Membres : kenshin5996, c_djo, manimang0, fandeipromxtrollmod, theoherlintw, maszoks
