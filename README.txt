@@ -1,19 +1,20 @@
-TEAM RDM - SITE TWITCH
+TEAM RDM - PACK SITE TWITCH CORRIGÉ
 
-1) Extraire le ZIP
-2) Double-cliquer sur start.bat
-3) Ouvrir http://localhost:8000
+Correction incluse :
+- Plus d'overlay custom sur la vidéo Twitch.
+- Plus de pseudo / jeu / vues affichés en double.
+- Player Twitch propre avec aspect-ratio 16/9.
+- Firebase Firestore pour enregistrer les clips.
 
-Le site récupère les photos Twitch avec un service public d'avatar.
-Si une photo ne se charge pas, le logo loup RDM s'affiche automatiquement.
-Si Twitch refuse le lecteur blanc, clique sur OUVRIR TWITCH : cela vient du blocage Twitch/navigateur ou bloqueur de pub.
+INSTALLATION :
+1) Mets tous les fichiers dans ton dépôt GitHub.
+2) Remplace la config dans firebase-config.js.
+3) Dans Firebase, active Firestore Database.
+4) Dans script.js, modifie MEMBER_CODES avec tes codes membre.
+5) Publie avec GitHub Pages.
 
+IMPORTANT TWITCH :
+Le player utilise automatiquement :
+parent=${location.hostname}
 
-VOCAL PRIVÉ:
-Code membre par défaut: RDM5996
-Pour changer le code, ouvre script.js et modifie PRIVATE_VOICE_CODE.
-Membres autorisés: kenshin5996, c_djo, manimang0, fandeipromxtrollmod, theoherlintw.
-
-
-MISE À JOUR:
-- Ajout de maszoks dans la TEAM RDM avec 1 follower affiché.
+Donc ça marche avec GitHub Pages sans devoir écrire le domaine à la main.

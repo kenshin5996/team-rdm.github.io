@@ -1,8 +1,11 @@
-window.RDM_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyB04km_rnFMLL0oCnxIRT7xVCuJKNMvXw",
-  authDomain: "team-rdm-site.firebaseapp.com",
-  projectId: "team-rdm-site",
-  storageBucket: "team-rdm-site.firebasestorage.app",
-  messagingSenderId: "995665285465",
-  appId: "1:995665285465:web:ca1f40525e0b6768e1bc48"
+// Remplace les valeurs ci-dessous par TA config Firebase.
+// Firebase Console > Project settings > General > Your apps > SDK setup and configuration
+
+export const firebaseConfig = {
+  apiKey: "REMPLACE_MOI",
+  authDomain: "REMPLACE_MOI.firebaseapp.com",
+  projectId: "REMPLACE_MOI",
+  storageBucket: "REMPLACE_MOI.appspot.com",
+  messagingSenderId: "REMPLACE_MOI",
+  appId: "REMPLACE_MOI"
 };
