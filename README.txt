@@ -1,15 +1,27 @@
-TEAM RDM - SITE TWITCH
+TEAM RDM - PACK MODIFIÉ
 
-1) Extraire le ZIP
-2) Double-cliquer sur start.bat
-3) Ouvrir http://localhost:8000
+Ajouts demandés :
+- maszoks ajouté dans la TEAM RDM : https://www.twitch.tv/maszoks
+- système EN DIRECT / HORS LIVE pour les membres Twitch
+- compteur de visiteurs : personnes en ligne, visites totales, visites aujourd'hui
+- système pour poster des clips avec : identifiant Twitch, titre du clip, lien du clip, mot de passe RDM5996
 
-Le site récupère les photos Twitch avec un service public d'avatar.
-Si une photo ne se charge pas, le logo loup RDM s'affiche automatiquement.
-Si Twitch refuse le lecteur blanc, clique sur OUVRIR TWITCH : cela vient du blocage Twitch/navigateur ou bloqueur de pub.
+Upload GitHub Pages :
+1) Envoie index.html, script.js, style.css, firebase-config.js et le dossier assets à la racine du dépôt.
+2) Dans GitHub > Settings > Pages : Branch main / root.
+3) Attends le déploiement vert.
+4) Recharge le site avec Ctrl + Shift + R.
 
+Firebase / Firestore requis pour les clips et le compteur visiteurs :
+Colle ces règles dans Firestore > Règles puis Publier :
 
-VOCAL PRIVÉ:
-Code membre par défaut: RDM5996
-Pour changer le code, ouvre script.js et modifie PRIVATE_VOICE_CODE.
-Membres autorisés: kenshin5996, c_djo, manimang0, fandeipromxtrollmod, theoherlintw.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /clips/{clipId} { allow read, write: if true; }
+    match /visits/{visitId} { allow read, write: if true; }
+    match /presence/{visitorId} { allow read, write: if true; }
+  }
+}
+
+Code membre / mot de passe clips : RDM5996

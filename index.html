@@ -11,76 +11,59 @@
   <nav class="navbar">
     <div class="brand"><img src="assets/wolf-logo.png" alt="RDM"><span>RDM</span></div>
     <div class="links">
-      <a href="#accueil">ACCUEIL</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE TWITCH</a><a href="#clips">CLIPS</a><a href="#vocal">VOCAL PRIVÉ</a><a href="#planning">PLANNING</a><a href="#reseaux">RÉSEAUX</a><a href="#contact">CONTACT</a>
+      <a href="#accueil">ACCUEIL</a><a href="#live">LIVE</a><a href="#equipe">ÉQUIPE</a><a href="#chaine">CHAÎNE</a><a href="#clips">CLIPS</a><a href="#visiteurs">VISITEURS</a><a href="#vocal">VOCAL</a><a href="#contact">CONTACT</a>
     </div>
     <a class="twitchBtn" href="https://www.twitch.tv/kenshin5996" target="_blank">Twitch</a>
   </nav>
-
-  <header id="accueil" class="hero">
-    <img src="assets/rdm_banner.png" alt="Bannière TEAM RDM" />
-  </header>
-
+  <header id="accueil" class="hero"><img src="assets/rdm_banner.png" alt="Bannière TEAM RDM" /></header>
   <main>
     <section id="live" class="panel livePanel">
-      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>🔴 QUI EST EN LIVE ?</h2></div>
-      <p class="sectionSub">Le site vérifie automatiquement les membres de la TEAM RDM. Quand quelqu’un est en live, il apparaît en premier avec le bouton pour regarder directement.</p>
-      <div class="liveTopBar">
-        <b id="liveSummary">Vérification des lives...</b>
-        <button onclick="checkAllLiveStatus(true)">Actualiser les lives</button>
-      </div>
+      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>🔴 LIVE DE LA TEAM RDM</h2></div>
+      <p class="sectionSub">Quand un membre est en live, il passe automatiquement en premier et le bouton permet de regarder directement.</p>
+      <div class="liveTopBar"><b id="liveSummary">Vérification des lives...</b><button onclick="checkAllLiveStatus(true)">Actualiser les lives</button></div>
       <div id="liveGrid" class="liveGrid"></div>
     </section>
-
     <section id="chaine" class="panel playerPanel">
-      <h2>🎮 CHAÎNE AFFICHÉE SUR LE SITE</h2>
-      <p>Clique sur “Afficher sur le site” pour voir la chaîne Twitch ici.</p>
-      <h3 id="currentName">KENSHIN5996</h3>
-      <div id="playerBox" class="playerBox"></div>
-      <div class="playerHelp">
-        Si Twitch bloque le lecteur, clique sur “Ouvrir Twitch”. Sur Netlify, le lecteur utilise automatiquement ton domaine public.
+      <h2>🎮 CHAÎNE AFFICHÉE SUR LE SITE</h2><p>Clique sur “Afficher sur le site” pour voir la chaîne Twitch ici.</p>
+      <h3 id="currentName">KENSHIN5996</h3><div id="playerBox" class="playerBox"></div>
+      <div class="playerHelp">Si Twitch bloque le lecteur, clique sur “Ouvrir Twitch”.</div>
+    </section>
+    <section id="equipe" class="panel"><div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>MEMBRES DE LA TEAM RDM</h2></div><div id="membersGrid" class="membersGrid"></div></section>
+    <section id="visiteurs" class="panel statsPanel">
+      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>👥 VISITEURS DU SITE</h2></div>
+      <p class="sectionSub">Le compteur affiche combien de personnes visitent le site et combien sont connectées maintenant.</p>
+      <div class="infoGrid">
+        <article class="infoCard"><h3>Personnes en ligne</h3><p><b id="onlineVisitors">0</b></p></article>
+        <article class="infoCard"><h3>Visites totales</h3><p><b id="totalVisits">0</b></p></article>
+        <article class="infoCard"><h3>Visites aujourd’hui</h3><p><b id="todayVisits">0</b></p></article>
+        <article class="infoCard"><h3>État compteur</h3><p><b id="statsStatus">Chargement...</b></p></article>
       </div>
     </section>
-
-    <section id="equipe" class="panel">
-      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>MEMBRES DE LA TEAM RDM</h2></div>
-      <div id="membersGrid" class="membersGrid"></div>
-    </section>
-
     <section id="clips" class="panel clipsPanel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>CLIPS DE LA TEAM RDM</h2></div>
-      <p class="sectionSub">Les meilleurs clips Twitch des membres. Clique sur lecture pour les regarder directement sur le site.</p>
+      <p class="sectionSub">Pour poster un clip : mets ton identifiant Twitch, le titre du clip, le lien du clip et le mot de passe <b>RDM5996</b>.</p>
+      <div class="clipPublishBox">
+        <h3>📤 Poster un clip Twitch</h3>
+        <div class="clipForm">
+          <input id="clipStreamer" type="text" placeholder="Identifiant Twitch" autocomplete="off" />
+          <input id="clipTitle" type="text" placeholder="Titre du clip" autocomplete="off" />
+          <input id="clipUrl" type="url" placeholder="Lien du clip Twitch" autocomplete="off" />
+          <input id="clipCode" type="password" placeholder="Mot de passe" autocomplete="off" />
+          <button onclick="publishClip()">Publier le clip</button>
+        </div>
+        <p class="clipNote">État clips : <b id="firebaseStatus">Chargement...</b></p>
+      </div>
       <div id="clipsGrid" class="clipsGrid"></div>
     </section>
-
-
-
     <section id="vocal" class="panel vocalPanel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>🎙️ VOCAL PRIVÉ TEAM RDM</h2></div>
-      <p class="sectionSub">Réservé aux membres RDM. Entre ton pseudo Twitch et le code membre pour rejoindre le vocal.</p>
-      <div class="vocalLogin" id="vocalLogin">
-        <input id="voiceName" type="text" placeholder="Ton pseudo Twitch" autocomplete="off" />
-        <input id="voiceCode" type="password" placeholder="Code membre" autocomplete="off" />
-        <button onclick="joinPrivateVoice()">Entrer dans le vocal</button>
-        <p class="vocalHint">Membres autorisés : kenshin5996, c_djo, manimang0, fandeipromxtrollmod, theoherlintw</p>
-      </div>
-      <div id="voiceRoom" class="voiceRoom">
-        <div class="voiceTop">
-          <b>Salon vocal privé RDM</b>
-          <button onclick="leavePrivateVoice()">Quitter le vocal</button>
-        </div>
-        <iframe id="voiceFrame" allow="camera; microphone; fullscreen; display-capture; autoplay"></iframe>
-      </div>
+      <p class="sectionSub">Réservé aux membres RDM.</p>
+      <div class="vocalLogin"><input id="voiceName" type="text" placeholder="Ton pseudo Twitch" autocomplete="off" /><input id="voiceCode" type="password" placeholder="Code membre" autocomplete="off" /><button onclick="joinPrivateVoice()">Entrer dans le vocal</button><p class="vocalHint">Membres autorisés : kenshin5996, c_djo, manimang0, fandeipromxtrollmod, theoherlintw, maszoks</p></div>
+      <div id="voiceRoom" class="voiceRoom"><div class="voiceTop"><b>Salon vocal privé RDM</b><button onclick="leavePrivateVoice()">Quitter le vocal</button></div><iframe id="voiceFrame" allow="camera; microphone; fullscreen; display-capture; autoplay"></iframe></div>
     </section>
-
-    <section id="planning" class="infoGrid">
-      <article class="infoCard"><h3>📅 Planning</h3><p>Les lives de la team RDM apparaissent ici quand vous lancez vos streams.</p></article>
-      <article class="infoCard"><h3>🎯 Mission</h3><p>Créer une team soudée, partager du gaming et soutenir les chaînes de chaque membre.</p></article>
-      <article id="reseaux" class="infoCard"><h3>📱 Réseaux</h3><p>Twitch, TikTok, YouTube et Twitter peuvent être ajoutés ici.</p></article>
-      <article id="contact" class="infoCard"><h3>✉️ Contact</h3><p>Créateur officiel : <b>kenshin5996</b><br>Email : kenshin5996pro@gmail.com</p></article>
-    </section>
+    <section id="contact" class="infoGrid"><article class="infoCard"><h3>📅 Planning</h3><p>Les lives de la team RDM apparaissent ici quand vous lancez vos streams.</p></article><article class="infoCard"><h3>🎯 Mission</h3><p>Créer une team soudée, partager du gaming et soutenir les chaînes.</p></article><article class="infoCard"><h3>📱 Réseaux</h3><p>Twitch, TikTok, YouTube et Twitter peuvent être ajoutés ici.</p></article><article class="infoCard"><h3>✉️ Contact</h3><p>Créateur officiel : <b>kenshin5996</b><br>Email : kenshin5996pro@gmail.com</p></article></section>
   </main>
-
   <footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
-  <script src="script.js"></script>
+  <script src="firebase-config.js"></script><script src="script.js"></script>
 </body>
 </html>
