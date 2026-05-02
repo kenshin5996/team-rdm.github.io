@@ -1,170 +1,185 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp,
-  query,
-  orderBy,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+const team = [
+  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur', followers:'215 followers'},
+  {name:'c_djo', display:'C_DJO', role:'Membre', followers:'475 followers'},
+  {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers'},
+  {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers'},
+  {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre', followers:'3 followers'},
+  {name:'maszoks', display:'MASZOKS', role:'Membre', followers:'1 follower'},
+];
 
-import { firebaseConfig } from "./firebase-config.js";
+const PRIVATE_VOICE_CODE = 'RDM5996';
+const PRIVATE_VOICE_ROOM = 'TeamRDMVocalPriveKenshin5996';
+const allowedVoiceMembers = team.map(m => m.name.toLowerCase());
+const host = window.location.hostname || 'localhost';
 
-/* Mets ici les codes autorisés */
-const MEMBER_CODES = ["rdm2026", "kenshin5996"];
+const defaultClips = [
+  { streamer: 'kenshin5996', title: 'Clip kenshin5996 #1', slug: 'BoxySpineyStrawberryTBTacoRight-RVw4ImPXBY7cYFXY', url: 'https://www.twitch.tv/kenshin5996/clip/BoxySpineyStrawberryTBTacoRight-RVw4ImPXBY7cYFXY' },
+  { streamer: 'kenshin5996', title: 'Clip kenshin5996 #2', slug: 'AmericanFunDinosaurKeyboardCat-tfmv5WLOv_v63LjV', url: 'https://www.twitch.tv/kenshin5996/clip/AmericanFunDinosaurKeyboardCat-tfmv5WLOv_v63LjV' },
+  { streamer: 'c_djo', title: 'Clip c_djo #1', slug: 'EsteemedTriangularShingleGingerPower-yBSuvPj5I32SXtzH', url: 'https://www.twitch.tv/c_djo/clip/EsteemedTriangularShingleGingerPower-yBSuvPj5I32SXtzH' },
+  { streamer: 'c_djo', title: 'Clip c_djo #2', slug: 'FairCuriousWolfDeIlluminati-7YO9dvECQFCYz5iY', url: 'https://www.twitch.tv/c_djo/clip/FairCuriousWolfDeIlluminati-7YO9dvECQFCYz5iY' },
+  { streamer: 'kenshin5996', title: 'Clip kenshin5996 #3', slug: 'CrowdedArtsyYogurtDxAbomb-ovDudfB44BUi0boP', url: 'https://www.twitch.tv/kenshin5996/clip/CrowdedArtsyYogurtDxAbomb-ovDudfB44BUi0boP' },
+];
 
-const form = document.getElementById("clipForm");
-const grid = document.getElementById("clipsGrid");
-const statusEl = document.getElementById("firebaseStatus");
-const messageEl = document.getElementById("message");
+let onlineClips = [];
+let dbTools = null;
+let clipsCollectionRef = null;
+let firebaseReady = false;
 
-let db = null;
+function $(id){ return document.getElementById(id); }
+function avatarUrl(name){ return `https://unavatar.io/twitch/${name}`; }
+function clean(value){ const d = document.createElement('div'); d.textContent = value || ''; return d.innerHTML; }
+function twitchPlayer(channel){ return `https://player.twitch.tv/?channel=${channel}&parent=${host}&muted=true&autoplay=false`; }
+function clipEmbed(slug){ return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(slug)}&parent=${host}&autoplay=false`; }
 
-try {
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  statusEl.textContent = "État Firebase : Firebase connecté ✅";
-  loadClips();
-} catch (error) {
-  console.error(error);
-  statusEl.textContent = "État Firebase : erreur de connexion ❌";
+function showChannel(name, display){
+  $('currentName').textContent = display;
+  $('playerBox').innerHTML = `<iframe allowfullscreen="true" scrolling="no" allow="autoplay; fullscreen" src="${twitchPlayer(name)}"></iframe>`;
+  $('chaine').scrollIntoView({behavior:'smooth'});
 }
+function openTwitch(name){ window.open(`https://www.twitch.tv/${name}`, '_blank'); }
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  if (!db) {
-    showMessage("Firebase n'est pas connecté.");
-    return;
-  }
-
-  const pseudo = document.getElementById("pseudo").value.trim();
-  const title = document.getElementById("title").value.trim();
-  const clipUrl = document.getElementById("clipUrl").value.trim();
-  const memberCode = document.getElementById("memberCode").value.trim();
-
-  if (!MEMBER_CODES.includes(memberCode)) {
-    showMessage("Code membre incorrect.");
-    return;
-  }
-
-  const clipSlug = extractTwitchClipSlug(clipUrl);
-
-  if (!clipSlug) {
-    showMessage("Lien Twitch invalide. Copie le lien complet du clip.");
-    return;
-  }
-
-  try {
-    await addDoc(collection(db, "clips"), {
-      pseudo,
-      title,
-      clipUrl,
-      clipSlug,
-      createdAt: serverTimestamp()
-    });
-
-    form.reset();
-    showMessage("Clip publié ✅");
-  } catch (error) {
-    console.error(error);
-    showMessage("Erreur pendant la publication.");
-  }
-});
-
-function loadClips() {
-  const q = query(collection(db, "clips"), orderBy("createdAt", "desc"));
-
-  onSnapshot(q, (snapshot) => {
-    grid.innerHTML = "";
-
-    if (snapshot.empty) {
-      grid.innerHTML = `<p>Aucun clip publié pour le moment.</p>`;
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-      const clip = doc.data();
-      grid.appendChild(createClipCard(clip));
-    });
-  }, (error) => {
-    console.error(error);
-    showMessage("Impossible de charger les clips.");
+function renderMembers(){
+  const grid = $('membersGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  team.forEach(member => {
+    const card = document.createElement('article');
+    card.className = 'memberCard';
+    card.innerHTML = `
+      <span class="badge ${member.role === 'Créateur' ? 'creator' : ''}">${member.role}</span>
+      <img class="avatar" src="${avatarUrl(member.name)}" alt="Profil Twitch ${member.display}" onerror="this.src='assets/wolf-logo.png'" />
+      <h3 title="${member.display}">${member.display}</h3>
+      <p class="followers">${member.followers}</p>
+      <p class="status">● Profil Twitch</p>
+      <button onclick="showChannel('${member.name}', '${member.display}')">Afficher sur le site</button>
+      <button class="secondary" onclick="openTwitch('${member.name}')">Ouvrir Twitch</button>`;
+    grid.appendChild(card);
   });
 }
 
-function createClipCard(clip) {
-  const card = document.createElement("article");
-  card.className = "clip-card";
+function extractClipSlug(url){
+  const text = (url || '').trim();
+  const match = text.match(/(?:twitch\.tv\/[\w-]+\/clip\/|clips\.twitch\.tv\/)([A-Za-z0-9_-]+)/i);
+  return match ? match[1] : '';
+}
 
-  const safeTitle = escapeHtml(clip.title || "Clip Twitch");
-  const safePseudo = escapeHtml(clip.pseudo || "Membre RDM");
-  const safeUrl = escapeHtml(clip.clipUrl || "#");
-  const slug = encodeURIComponent(clip.clipSlug);
-
-  // IMPORTANT :
-  // On met seulement l'iframe Twitch, sans texte par-dessus la vidéo.
-  // Ça corrige le bug des infos affichées en double.
+function renderClipCard(clip){
+  const card = document.createElement('article');
+  card.className = 'clipCard';
   card.innerHTML = `
-    <div class="clip-info">
-      <h3>${safeTitle}</h3>
-      <p>${safePseudo}</p>
+    <div class="clipHeader">
+      <img src="${avatarUrl(clip.streamer)}" onerror="this.src='assets/wolf-logo.png'" alt="${clean(clip.streamer)}">
+      <div><h3>${clean(clip.title)}</h3><p>${clean(clip.streamer)}</p></div>
     </div>
-
-    <div class="player-wrap">
-      <iframe
-        src="https://clips.twitch.tv/embed?clip=${slug}&parent=${location.hostname}&autoplay=false"
-        allowfullscreen
-        scrolling="no">
-      </iframe>
-    </div>
-
-    <div class="clip-actions">
-      <a href="${safeUrl}" target="_blank" rel="noopener">Voir le clip sur Twitch</a>
-    </div>
-  `;
-
+    <iframe src="${clipEmbed(clip.slug)}" allowfullscreen="true" allow="autoplay; fullscreen"></iframe>
+    <a class="clipLink" href="${clean(clip.url)}" target="_blank">Ouvrir le clip sur Twitch</a>`;
   return card;
 }
 
-function extractTwitchClipSlug(url) {
+function renderClips(){
+  const grid = $('clipsGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  [...onlineClips, ...defaultClips].forEach(c => grid.appendChild(renderClipCard(c)));
+  if ($('onlineClipCount')) $('onlineClipCount').textContent = String(onlineClips.length);
+}
+
+function configOk(){
+  const c = window.RDM_FIREBASE_CONFIG;
+  return c && c.apiKey && c.projectId && !String(c.apiKey).includes('REMPLACE_MOI');
+}
+
+async function initFirebase(){
+  renderClips();
+  if (!configOk()) {
+    $('firebaseStatus').textContent = 'Firebase config manquante.';
+    $('statsStatus').textContent = 'Firebase non configuré';
+    return;
+  }
   try {
-    const parsed = new URL(url);
+    const appModule = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js');
+    const fs = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js');
+    const app = appModule.initializeApp(window.RDM_FIREBASE_CONFIG);
+    const db = fs.getFirestore(app);
+    dbTools = fs;
+    clipsCollectionRef = fs.collection(db, 'clips');
+    firebaseReady = true;
+    $('firebaseStatus').textContent = 'Firebase connecté ✅';
+    $('statsStatus').textContent = 'Connecté ✅';
 
-    // Format : https://clips.twitch.tv/SlugDuClip
-    if (parsed.hostname.includes("clips.twitch.tv")) {
-      return parsed.pathname.split("/").filter(Boolean)[0] || null;
-    }
+    fs.onSnapshot(fs.query(clipsCollectionRef, fs.orderBy('createdAt', 'desc')), snap => {
+      onlineClips = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })).filter(c => c.slug);
+      renderClips();
+    }, err => {
+      console.error(err);
+      $('firebaseStatus').textContent = 'Firestore bloque la lecture. Vérifie les règles.';
+    });
 
-    // Format : https://www.twitch.tv/user/clip/SlugDuClip
-    if (parsed.hostname.includes("twitch.tv")) {
-      const parts = parsed.pathname.split("/").filter(Boolean);
-      const clipIndex = parts.indexOf("clip");
-      if (clipIndex !== -1 && parts[clipIndex + 1]) {
-        return parts[clipIndex + 1];
-      }
-    }
-
-    return null;
-  } catch {
-    return null;
+    await recordVisit(fs, db);
+  } catch (err) {
+    console.error(err);
+    $('firebaseStatus').textContent = 'Erreur Firebase. Vérifie les règles Firestore.';
+    $('statsStatus').textContent = 'Erreur Firebase';
   }
 }
 
-function showMessage(text) {
-  messageEl.textContent = text;
-  setTimeout(() => {
-    messageEl.textContent = "";
-  }, 3500);
+async function recordVisit(fs, db){
+  try {
+    const visitsRef = fs.collection(db, 'visits');
+    const today = new Date().toISOString().slice(0,10);
+    const key = 'rdm_visit_' + today;
+    if (!localStorage.getItem(key)) {
+      await fs.addDoc(visitsRef, { page: location.pathname, day: today, createdAt: fs.serverTimestamp() });
+      localStorage.setItem(key, '1');
+    }
+    fs.onSnapshot(visitsRef, snap => {
+      let total = 0, todayCount = 0;
+      snap.forEach(d => { total++; if (d.data().day === today) todayCount++; });
+      $('totalVisits').textContent = String(total);
+      $('todayVisits').textContent = String(todayCount);
+    });
+  } catch (err) {
+    console.error(err);
+    $('statsStatus').textContent = 'Stats bloquées par Firestore';
+  }
 }
 
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (char) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  }[char]));
+async function publishClip(){
+  const streamer = ($('clipStreamer').value || '').trim().toLowerCase();
+  const title = ($('clipTitle').value || '').trim();
+  const url = ($('clipUrl').value || '').trim();
+  const code = ($('clipCode').value || '').trim();
+  const slug = extractClipSlug(url);
+
+  if (!allowedVoiceMembers.includes(streamer)) return alert('Accès refusé : ce pseudo n’est pas dans la TEAM RDM.');
+  if (code !== PRIVATE_VOICE_CODE) return alert('Code membre incorrect.');
+  if (!title) return alert('Ajoute un titre.');
+  if (!slug) return alert('Lien Twitch invalide. Exemple : https://www.twitch.tv/chaine/clip/SLUG');
+  if (!firebaseReady || !clipsCollectionRef || !dbTools) return alert('Firebase pas encore prêt. Recharge la page.');
+  if ([...onlineClips, ...defaultClips].some(c => c.slug === slug)) return alert('Ce clip est déjà publié.');
+
+  try {
+    await dbTools.addDoc(clipsCollectionRef, { streamer, title, slug, url, createdAt: dbTools.serverTimestamp() });
+    $('clipTitle').value = ''; $('clipUrl').value = ''; $('clipCode').value = '';
+    alert('Clip publié ✅');
+  } catch (err) {
+    console.error(err);
+    alert('Impossible de publier. Mets les règles Firestore avec clips/visits en read/write true.');
+  }
 }
+
+function joinPrivateVoice(){
+  const pseudo = ($('voiceName').value || '').trim().toLowerCase();
+  const code = ($('voiceCode').value || '').trim();
+  if(!allowedVoiceMembers.includes(pseudo)) return alert('Accès refusé : ce pseudo n’est pas dans la TEAM RDM.');
+  if(code !== PRIVATE_VOICE_CODE) return alert('Code membre incorrect.');
+  const displayName = encodeURIComponent(pseudo);
+  $('voiceFrame').src = `https://meet.jit.si/${PRIVATE_VOICE_ROOM}#userInfo.displayName="${displayName}"&config.prejoinPageEnabled=false&config.startWithVideoMuted=true&config.startAudioOnly=true`;
+  $('voiceRoom').style.display = 'block';
+  $('vocal').scrollIntoView({behavior:'smooth'});
+}
+function leavePrivateVoice(){ $('voiceFrame').src = ''; $('voiceRoom').style.display = 'none'; }
+
+renderMembers();
+showChannel('kenshin5996', 'KENSHIN5996');
+initFirebase();
