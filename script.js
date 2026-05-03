@@ -7,7 +7,7 @@ const team = [
   {name:'maszoks', display:'MASZOKS', role:'Membre', followers:'1 follower', logo:'assets/maszoks.png'},
 ];
 
-const PRIVATE_VOICE_CODE = 'RDM5996';
+const PRIVATE_VOICE_CODE = 'RDM59968';
 const PRIVATE_VOICE_ROOM = 'TeamRDMVocalPriveKenshin5996';
 const allowedMembers = team.map(m => m.name.toLowerCase());
 const host = window.location.hostname || 'localhost';
@@ -183,7 +183,7 @@ async function publishClip(){
   const code=($('clipCode').value||'').trim();
   const slug=extractClipSlug(url);
   if(!allowedMembers.includes(streamer)) return alert('Identifiant refusé : ce pseudo n’est pas dans la TEAM RDM.');
-  if(code!==PRIVATE_VOICE_CODE) return alert('Mot de passe incorrect. Mets RDM5996.');
+  if(code!==PRIVATE_VOICE_CODE) return alert('Mot de passe incorrect. Mets RDM59968.');
   if(!title) return alert('Ajoute le titre du clip.');
   if(!slug) return alert('Lien de clip Twitch invalide.');
   if([...onlineClips,...defaultClips].some(c=>c.slug===slug)) return alert('Ce clip est déjà publié.');
