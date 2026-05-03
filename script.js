@@ -183,7 +183,7 @@ async function publishClip(){
   const code=($('clipCode').value||'').trim();
   const slug=extractClipSlug(url);
   if(!allowedMembers.includes(streamer)) return alert('Identifiant refusé : ce pseudo n’est pas dans la TEAM RDM.');
-  if(code!==PRIVATE_VOICE_CODE) return alert('Mot de passe incorrect. Mets RDM59968.');
+  if(code!==PRIVATE_VOICE_CODE) return alert('Mot de passe incorrect.');
   if(!title) return alert('Ajoute le titre du clip.');
   if(!slug) return alert('Lien de clip Twitch invalide.');
   if([...onlineClips,...defaultClips].some(c=>c.slug===slug)) return alert('Ce clip est déjà publié.');
