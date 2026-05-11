@@ -1,0 +1,57 @@
+/* TEAM RDM LIVE CHAT */
+
+.chatSection{
+  margin-top:40px;
+  background:#111;
+  border-radius:20px;
+  padding:25px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+#chatMessages{
+  height:450px;
+  overflow-y:auto;
+  background:#0a0a0a;
+  border-radius:16px;
+  padding:15px;
+  margin-bottom:20px;
+}
+
+.message{
+  margin-bottom:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#181818;
+  color:white;
+  word-break:break-word;
+}
+
+.message strong{
+  color:#9147ff;
+}
+
+.chatControls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.chatControls input{
+  flex:1;
+  min-width:180px;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#1b1b1b;
+  color:white;
+}
+
+.chatControls button{
+  padding:14px 22px;
+  border:none;
+  border-radius:12px;
+  background:#9147ff;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
