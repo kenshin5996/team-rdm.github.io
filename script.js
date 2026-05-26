@@ -3,7 +3,7 @@ const team = [
   {name:'c_djo', display:'C_DJO', role:'Membre', followers:'476 followers', logo:'https://unavatar.io/twitch/c_djo'},
   {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers', logo:'https://unavatar.io/twitch/manimang0'},
   {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers', logo:'https://unavatar.io/twitch/fandeipromxtrollmod'},
-  {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre', followers:'5 followers', logo:'https://unavatar.io/twitch/theoherlintw'},
+  {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre', followers:'6 followers', logo:'https://unavatar.io/twitch/theoherlintw'},
   {name:'maszoks', display:'MASZOKS', role:'Membre', followers:'1 follower', logo:'assets/maszoks.png'},
 ];
 
