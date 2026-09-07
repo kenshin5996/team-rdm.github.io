@@ -1,5 +1,5 @@
 const team = [
-  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur', followers:'216 followers', logo:'https://unavatar.io/twitch/kenshin5996'},
+  {name:'kenshin5996', display:'KENSHIN5996', role:'Créateur', followers:'215 followers', logo:'https://unavatar.io/twitch/kenshin5996'},
   {name:'c_djo', display:'C_DJO', role:'Membre', followers:'477 followers', logo:'https://unavatar.io/twitch/c_djo'},
   {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers', logo:'https://unavatar.io/twitch/manimang0'},
   {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers', logo:'https://unavatar.io/twitch/fandeipromxtrollmod'},
