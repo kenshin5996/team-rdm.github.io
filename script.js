@@ -214,112 +214,22 @@ setInterval(()=>checkAllLiveStatus(false), 120000);
 initFirebase();
 
 
-/* ===== ASSISTANT TEAM RDM (ajout indépendant : ne remplace pas les fonctions du site) ===== */
-(function initTeamRDMAssistant(){
-  if (document.getElementById('rdmAssistantRoot')) return;
-
-  const root = document.createElement('div');
-  root.id = 'rdmAssistantRoot';
-  root.innerHTML = `
-    <style>
-      #rdmAssistantRoot{font-family:Arial,sans-serif;position:fixed;right:20px;bottom:20px;z-index:99999;color:#f5f7ff}
-      #rdmAssistantRoot *{box-sizing:border-box}
-      #rdmAssistantToggle{border:1px solid #42d9ff;background:linear-gradient(135deg,#101a38,#481a77);color:#fff;border-radius:999px;padding:14px 19px;font-weight:800;box-shadow:0 0 18px #277dff88;cursor:pointer}
-      #rdmAssistantPanel{display:none;flex-direction:column;width:min(360px,calc(100vw - 28px));height:min(570px,calc(100vh - 110px));margin-bottom:12px;border:1px solid #4f8cff;border-radius:18px;overflow:hidden;background:#090d1b;box-shadow:0 0 28px #493cff55}
-      #rdmAssistantPanel.rdm-open{display:flex}
-      .rdm-a-head{padding:15px;background:linear-gradient(120deg,#10264a,#321052);border-bottom:1px solid #344b9c;display:flex;align-items:center;justify-content:space-between}
-      .rdm-a-head strong{display:block;color:#7deaff;font-size:16px}.rdm-a-head small{color:#c7cce8}
-      #rdmAssistantClose{background:transparent;border:0;color:white;font-size:24px;cursor:pointer}
-      #rdmAssistantMessages{padding:13px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:10px}
-      .rdm-a-msg{white-space:pre-wrap;overflow-wrap:anywhere;max-width:95%;padding:10px 12px;border-radius:13px;background:#151d34;border:1px solid #293b69;font-size:13px;line-height:1.45}
-      .rdm-a-msg.rdm-user{align-self:flex-end;background:#25164a;border-color:#774bda}
-      .rdm-a-actions{display:flex;flex-wrap:wrap;gap:7px;padding:0 12px 12px}
-      .rdm-a-actions button,.rdm-a-actions a{font-size:12px;text-decoration:none;color:#fff;border:1px solid #4c7bff;background:#111d3b;padding:8px 10px;border-radius:10px;cursor:pointer}
-      .rdm-a-actions button:hover,.rdm-a-actions a:hover{background:#30205e}
-      #rdmAssistantForm{display:flex;gap:7px;padding:10px;border-top:1px solid #28365f}
-      #rdmAssistantInput{min-width:0;flex:1;background:#0e1426;border:1px solid #344875;border-radius:10px;padding:11px;color:white;outline:none}
-      #rdmAssistantSend{background:linear-gradient(135deg,#147dff,#743bdb);border:0;color:white;border-radius:10px;padding:0 13px;font-weight:bold;cursor:pointer}
-      .rdm-a-ticket{display:grid;gap:8px;width:100%}.rdm-a-ticket label{font-size:12px;color:#d7ddff}.rdm-a-ticket input,.rdm-a-ticket select,.rdm-a-ticket textarea{display:block;width:100%;margin-top:4px;padding:9px;border:1px solid #3b4e80;border-radius:8px;background:#0c1325;color:#fff}.rdm-a-ticket button{padding:10px;border-radius:9px;background:#39216a;border:1px solid #8a63ff;color:#fff;cursor:pointer}
-      @media(max-width:480px){#rdmAssistantRoot{right:10px;bottom:10px}#rdmAssistantPanel{width:calc(100vw - 20px);height:min(72vh,570px)}}
-    </style>
-    <section id="rdmAssistantPanel" aria-label="Assistant TEAM RDM" aria-live="polite">
-      <header class="rdm-a-head"><div><strong>🐺 Assistant TEAM RDM</strong><small>Accueil • Infos • Candidature</small></div><button id="rdmAssistantClose" aria-label="Fermer">×</button></header>
-      <div id="rdmAssistantMessages"></div>
-      <div class="rdm-a-actions" id="rdmAssistantActions">
-        <button data-rdm="join">📝 Rejoindre la team</button><button data-rdm="rules">📜 Règlement</button><button data-rdm="gta">🎮 Clans GTA</button><button data-rdm="support">💙 Soutenir la team</button>
-      </div>
-      <form id="rdmAssistantForm"><input id="rdmAssistantInput" maxlength="300" placeholder="Écris ta question…" autocomplete="off"><button id="rdmAssistantSend" type="submit">➤</button></form>
-    </section>
-    <button id="rdmAssistantToggle" aria-expanded="false">💬 Assistant RDM</button>`;
-  document.body.appendChild(root);
-
-  const panel = root.querySelector('#rdmAssistantPanel');
-  const toggle = root.querySelector('#rdmAssistantToggle');
-  const messages = root.querySelector('#rdmAssistantMessages');
-  const actions = root.querySelector('#rdmAssistantActions');
-  const input = root.querySelector('#rdmAssistantInput');
-
-  function addMessage(text, user=false){
-    const el=document.createElement('div'); el.className='rdm-a-msg'+(user?' rdm-user':''); el.textContent=text;
-    messages.appendChild(el); messages.scrollTop=messages.scrollHeight; return el;
-  }
-  function addLinks(){
-    const el=document.createElement('div'); el.className='rdm-a-msg';
-    el.textContent='Crews Rockstar Games :';
-    const a=document.createElement('a'); a.href='https://socialclub.rockstargames.com/crew/team_rdmm/hierarchy'; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='TEAM_RDMM'; a.style.color='#7deaff'; a.style.display='block'; a.style.marginTop='8px';
-    const b=document.createElement('a'); b.href='https://socialclub.rockstargames.com/crew/army-dz59/hierarchy'; b.target='_blank'; b.rel='noopener noreferrer'; b.textContent='ARMY-DZ59'; b.style.color='#c9a8ff'; b.style.display='block'; b.style.marginTop='6px';
-    el.append(a,b); messages.appendChild(el); messages.scrollTop=messages.scrollHeight;
-  }
-  function showRules(){
-    addMessage("📜 RÈGLEMENT TEAM RDM\\n1. Respecter tous les membres et les autres joueurs.\\n2. Pas d’insultes, de harcèlement, de triche ni de comportement toxique.\\n3. Sur Call of Duty et les autres jeux où tu représentes la team, porte le tag RDM si les règles du jeu le permettent.\\n4. Soutenir les membres : follow leurs chaînes Twitch et passe leur dire bonjour.\\n5. Respecter les consignes du créateur et prévenir en cas de problème.\\n6. Une candidature est vérifiée par le créateur avant toute acceptation.");
-  }
-  function showSupport(){
-    addMessage("💙 Le site sert à soutenir la TEAM RDM ! N’hésite pas à follow les membres Twitch, à regarder leurs lives et à leur faire un petit coucou dans le chat. Merci pour le soutien !");
-    if (Array.isArray(window.team)) {
-      window.team.forEach(m=>{ if(m.name){ const el=document.createElement('div'); el.className='rdm-a-msg'; const a=document.createElement('a'); a.href='https://www.twitch.tv/'+encodeURIComponent(m.name); a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Suivre '+(m.display||m.name); a.style.color='#7deaff'; el.appendChild(a); messages.appendChild(el); }});
-    } else addMessage("Tu peux retrouver les chaînes dans la section Membres du site.");
-  }
-  function showJoin(){
-    const box=addMessage("📝 CANDIDATURE TEAM RDM");
-    const form=document.createElement('form'); form.className='rdm-a-ticket';
-    form.innerHTML=`
-      <label>Pseudo Twitch <input name="pseudo" required maxlength="30" placeholder="TonPseudo"></label>
-      <label>Lien de ta chaîne Twitch <input name="chaine" type="url" required placeholder="https://www.twitch.tv/tonpseudo"></label>
-      <label>Nombre de followers <input name="followers" type="number" min="0" required placeholder="100"></label>
-      <label>Es-tu affilié Twitch ? <select name="affilie" required><option value="">Choisir…</option><option value="oui">Oui</option><option value="non">Non</option></select></label>
-      <label>Jeux auxquels tu joues <input name="jeux" maxlength="120" placeholder="Call of Duty, GTA, autres…"></label>
-      <button type="submit">Préparer mon ticket</button>`;
-    box.appendChild(form);
-    form.addEventListener('submit',ev=>{
-      ev.preventDefault(); const fd=new FormData(form);
-      const pseudo=String(fd.get('pseudo')||'').trim(), chaine=String(fd.get('chaine')||'').trim();
-      const followers=Number(fd.get('followers')), affilie=String(fd.get('affilie')), jeux=String(fd.get('jeux')||'Non précisés');
-      let validUrl; try{validUrl=new URL(chaine)}catch{addMessage("Le lien Twitch n’est pas valide. Vérifie l’adresse et réessaie.");return;}
-      if(!/^https?:$/.test(validUrl.protocol)||!/(^|\.)twitch\.tv$/i.test(validUrl.hostname)){addMessage("Utilise un lien de chaîne Twitch valide, par exemple https://www.twitch.tv/tonpseudo");return;}
-      if(followers<100){addMessage("Merci pour ta candidature ! Pour rejoindre la team, il faut au moins 100 followers. Tu peux revenir quand tu auras atteint ce seuil.");return;}
-      if(affilie!=='oui'){addMessage("Merci pour ta demande. L’affiliation Twitch est également demandée pour rejoindre la team. Tu pourras refaire une candidature lorsque tu seras affilié.");return;}
-      const ticket=`CANDIDATURE TEAM RDM\\nPseudo Twitch : ${pseudo}\\nChaîne : ${chaine}\\nFollowers déclarés : ${followers}\\nAffilié Twitch : ${affilie}\\nJeux : ${jeux}\\n\\nÀ vérifier par le créateur avant acceptation.`;
-      addMessage("✅ Ta candidature remplit les conditions déclarées. Ton ticket est préparé ci-dessous. Il n’est pas envoyé automatiquement : copie-le et transmets-le au créateur pour vérification.");
-      const out=document.createElement('textarea'); out.value=ticket; out.readOnly=true; out.rows=6; out.style.cssText='width:100%;margin-top:8px;background:#080e1b;color:#fff;border:1px solid #4c7bff;border-radius:8px;padding:9px';
-      const copy=document.createElement('button'); copy.type='button'; copy.textContent='Copier le ticket'; copy.style.cssText='margin-top:8px;padding:9px;background:#30205e;color:#fff;border:1px solid #8a63ff;border-radius:8px;cursor:pointer';
-      copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(ticket);copy.textContent='Ticket copié !'}catch{out.focus();out.select();copy.textContent='Sélectionne puis copie le texte';}});
-      const wrap=document.createElement('div'); wrap.className='rdm-a-msg'; wrap.append(out,copy); messages.appendChild(wrap); form.querySelector('button').disabled=true;
-      messages.scrollTop=messages.scrollHeight;
-    });
-  }
-  function answer(text){
-    const q=text.toLowerCase();
-    if(/rejoin|candidat|inscri|team|recrut/.test(q)) return showJoin();
-    if(/r[eè]gle|comport|tag|oblig/.test(q)) return showRules();
-    if(/gta|rockstar|crew|clan/.test(q)) return addLinks();
-    if(/follow|souten|coucou|bonjour|aider/.test(q)) return showSupport();
-    if(/live|stream|twitch|membre/.test(q)) return addMessage("Tu peux consulter les membres et leurs lives dans les sections Membres et En direct du site. Clique sur un profil pour ouvrir sa chaîne Twitch.");
-    if(/clip|vocal|code|mot de passe/.test(q)) return addMessage("Les clips et le vocal privé sont réservés aux membres acceptés. Le créateur communique le code privé après validation. Ne partage pas ce code publiquement.");
-    addMessage("Salut ! 🐺 Je suis l’assistant TEAM RDM. Je peux t’aider pour une candidature, le règlement, les crews GTA ou le soutien aux chaînes Twitch. Choisis un bouton ci-dessous.");
-  }
-
-  toggle.addEventListener('click',()=>{const open=!panel.classList.contains('rdm-open');panel.classList.toggle('rdm-open',open);toggle.setAttribute('aria-expanded',String(open));if(open&&!messages.childElementCount)addMessage("Salut et bienvenue sur le site TEAM RDM ! 🐺 Le site sert à soutenir la team : n’hésite pas à follow les membres et à leur faire un coucou. Comment puis-je t’aider ?");});
-  root.querySelector('#rdmAssistantClose').addEventListener('click',()=>{panel.classList.remove('rdm-open');toggle.setAttribute('aria-expanded','false');});
-  actions.addEventListener('click',ev=>{const b=ev.target.closest('button[data-rdm]');if(!b)return;({join:showJoin,rules:showRules,gta:addLinks,support:showSupport})[b.dataset.rdm]?.();});
-  root.querySelector('#rdmAssistantForm').addEventListener('submit',ev=>{ev.preventDefault();const text=input.value.trim();if(!text)return;addMessage(text,true);input.value='';answer(text);});
+/* Assistant TEAM RDM — réponses prédéfinies + candidature par e-mail */
+(function(){
+  if(document.getElementById('rdmHelpButton')) return;
+  const mail='kenshin5996pro@gmail.com';
+  const style=document.createElement('style');
+  style.textContent=`#rdmHelpButton{position:fixed;right:22px;bottom:22px;z-index:9998;border:1px solid #32c8ff;border-radius:999px;padding:14px 19px;background:linear-gradient(135deg,#061b35,#24104a);color:#fff;font-weight:800;box-shadow:0 0 22px #168bff88;cursor:pointer}#rdmHelpPanel{position:fixed;right:18px;bottom:82px;z-index:9999;width:min(360px,calc(100vw - 28px));max-height:78vh;overflow:auto;background:#080d1b;color:#f4f7ff;border:1px solid #278cff;border-radius:16px;box-shadow:0 0 28px #4b35ff66;font:14px/1.45 Arial,sans-serif}#rdmHelpPanel *{box-sizing:border-box}#rdmHelpPanel header{padding:14px;background:linear-gradient(100deg,#062747,#30104f);font-size:17px;font-weight:bold;color:#7dddff}#rdmHelpPanel .rdmBody{padding:13px}#rdmHelpPanel button,#rdmHelpPanel a.rdmBtn{display:inline-block;border:1px solid #248fff;border-radius:9px;padding:9px 11px;background:#101f3d;color:#fff;cursor:pointer;text-decoration:none;margin:4px 3px 4px 0}#rdmHelpPanel label{display:block;margin:9px 0 4px;color:#b8dfff}#rdmHelpPanel input,#rdmHelpPanel textarea,#rdmHelpPanel select{width:100%;padding:9px;border-radius:8px;border:1px solid #344b72;background:#101629;color:#fff;font:inherit}#rdmHelpPanel textarea{min-height:70px;resize:vertical}#rdmHelpPanel .rdmHidden{display:none}#rdmHelpPanel .rdmClose{float:right;background:transparent;border:0;font-size:20px;padding:0 6px}`;
+  document.head.appendChild(style);
+  const launcher=document.createElement('button');launcher.id='rdmHelpButton';launcher.textContent='💬 Assistant RDM';launcher.setAttribute('aria-expanded','false');
+  const panel=document.createElement('section');panel.id='rdmHelpPanel';panel.className='rdmHidden';panel.innerHTML=`<header>🐺 Assistant TEAM RDM <button class="rdmClose" id="rdmClose" aria-label="Fermer">×</button></header><div class="rdmBody"><p>Salut ! Je peux t’expliquer la team ou t’aider à préparer une candidature.</p><button id="rdmRules">📜 Règlement</button><button id="rdmSupport">💙 Soutenir la team</button><button id="rdmApply">📝 Candidater</button><button id="rdmGta">🎮 Crews GTA</button><div id="rdmAnswer" aria-live="polite"></div><form id="rdmApplyForm" class="rdmHidden"><p><b>Candidature TEAM RDM</b><br>Il faut au moins 100 followers Twitch et être affilié. Vérifie que tes informations sont exactes.</p><label for="rdmPseudo">Pseudo Twitch</label><input id="rdmPseudo" required maxlength="100" placeholder="TonPseudo"><label for="rdmChannel">Lien de ta chaîne Twitch</label><input id="rdmChannel" type="url" required placeholder="https://www.twitch.tv/tonpseudo"><label for="rdmFollowers">Nombre de followers</label><input id="rdmFollowers" type="number" min="0" required><label for="rdmAffil">Es-tu affilié Twitch ?</label><select id="rdmAffil" required><option value="">Choisir…</option><option>Oui</option><option>Non</option><option>En cours</option></select><label for="rdmGames">Jeux joués</label><input id="rdmGames" required placeholder="Call of Duty, GTA…"><label for="rdmMotivation">Ta motivation</label><textarea id="rdmMotivation" required maxlength="1500" placeholder="Pourquoi veux-tu rejoindre la team ?"></textarea><button type="submit">✉️ Préparer l’e-mail</button><p id="rdmMailHint">Ton application de messagerie va s’ouvrir. Tu devras appuyer sur Envoyer.</p></form></div>`;
+  document.body.append(launcher,panel);
+  const $=id=>document.getElementById(id);
+  launcher.addEventListener('click',()=>{panel.classList.toggle('rdmHidden');launcher.setAttribute('aria-expanded',String(!panel.classList.contains('rdmHidden')))});
+  $('rdmClose').addEventListener('click',()=>panel.classList.add('rdmHidden'));
+  $('rdmRules').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p><b>Règlement TEAM RDM</b><br>Respecte tous les membres, reste fair-play, évite les insultes et la triche, respecte les consignes du créateur. Pour les jeux de la team, utilise le tag RDM quand cela est demandé, notamment sur Call of Duty et les autres jeux concernés. Une candidature est examinée par le créateur.</p>';$('rdmApplyForm').classList.add('rdmHidden')});
+  $('rdmSupport').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p>💙 Ce site sert à soutenir la TEAM RDM ! N’hésite pas à follow les membres sur Twitch et à leur faire un petit coucou pendant leurs lives.</p>';$('rdmApplyForm').classList.add('rdmHidden')});
+  $('rdmGta').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p><b>Crews GTA</b><br><a class="rdmBtn" target="_blank" rel="noopener" href="https://socialclub.rockstargames.com/crew/team_rdmm/hierarchy">TEAM RDMM</a><a class="rdmBtn" target="_blank" rel="noopener" href="https://socialclub.rockstargames.com/crew/army-dz59/hierarchy">ARMY-DZ59</a></p>';$('rdmApplyForm').classList.add('rdmHidden')});
+  $('rdmApply').addEventListener('click',()=>{$('rdmAnswer').textContent='';$('rdmApplyForm').classList.toggle('rdmHidden')});
+  $('rdmApplyForm').addEventListener('submit',e=>{e.preventDefault();const pseudo=$('rdmPseudo').value.trim();const channel=$('rdmChannel').value.trim();const followers=$('rdmFollowers').value;const affiliation=$('rdmAffil').value;const games=$('rdmGames').value.trim();const motivation=$('rdmMotivation').value.trim();if(!/^https?:\/\/(www\.)?twitch\.tv\/[A-Za-z0-9_]+\/?$/i.test(channel)){alert('Entre un lien valide vers une chaîne Twitch.');return}const subject='Candidature TEAM RDM - '+pseudo;const body='Bonjour KENSHIN5996,\n\nJe souhaite rejoindre la TEAM RDM.\n\nPseudo Twitch : '+pseudo+'\nChaîne Twitch : '+channel+'\nFollowers : '+followers+'\nAffilié Twitch : '+affiliation+'\nJeux joués : '+games+'\nMotivation : '+motivation+'\n\nJe confirme que ces informations sont exactes.\n';window.location.href='mailto:'+mail+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body)});
 })();
