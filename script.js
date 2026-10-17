@@ -258,5 +258,28 @@ initFirebase();
   $('rdmSupport').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p>💙 Ce site sert à soutenir la TEAM RDM ! N’hésite pas à follow les membres sur Twitch et à leur faire un petit coucou pendant leurs lives.</p>';$('rdmApplyForm').classList.add('rdmHidden')});
   $('rdmGta').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p><b>Crews GTA</b><br><a class="rdmBtn" target="_blank" rel="noopener" href="https://socialclub.rockstargames.com/crew/team_rdmm/hierarchy">TEAM RDMM</a><a class="rdmBtn" target="_blank" rel="noopener" href="https://socialclub.rockstargames.com/crew/army-dz59/hierarchy">ARMY-DZ59</a></p>';$('rdmApplyForm').classList.add('rdmHidden')});
   $('rdmApply').addEventListener('click',()=>{$('rdmAnswer').textContent='';$('rdmApplyForm').classList.toggle('rdmHidden')});
-  $('rdmApplyForm').addEventListener('submit',e=>{e.preventDefault();const pseudo=$('rdmPseudo').value.trim();const channel=$('rdmChannel').value.trim();const followers=$('rdmFollowers').value;const affiliation=$('rdmAffil').value;const games=$('rdmGames').value.trim();const motivation=$('rdmMotivation').value.trim();if(!/^https?:\/\/(www\.)?twitch\.tv\/[A-Za-z0-9_]+\/?$/i.test(channel)){alert('Entre un lien valide vers une chaîne Twitch.');return}const subject='Candidature TEAM RDM - '+pseudo;const body='Bonjour KENSHIN5996,\n\nJe souhaite rejoindre la TEAM RDM.\n\nPseudo Twitch : '+pseudo+'\nChaîne Twitch : '+channel+'\nFollowers : '+followers+'\nAffilié Twitch : '+affiliation+'\nJeux joués : '+games+'\nMotivation : '+motivation+'\n\nJe confirme que ces informations sont exactes.\n';window.location.href='mailto:'+mail+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body)});
+  $('rdmApplyForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const pseudo=$('rdmPseudo').value.trim();
+    const channel=$('rdmChannel').value.trim();
+    const followers=$('rdmFollowers').value;
+    const affiliation=$('rdmAffil').value;
+    const games=$('rdmGames').value.trim();
+    const motivation=$('rdmMotivation').value.trim();
+    const hint=$('rdmMailHint');
+    if(!/^https?:\/\/(www\.)?twitch\.tv\/[A-Za-z0-9_]+\/?$/i.test(channel)){
+      hint.textContent='Le lien Twitch ne semble pas valide. Exemple : https://www.twitch.tv/tonpseudo';
+      $('rdmChannel').focus(); return;
+    }
+    const subject='Candidature TEAM RDM - '+pseudo;
+    const body='Bonjour KENSHIN5996,\n\nJe souhaite rejoindre la TEAM RDM.\n\nPseudo Twitch : '+pseudo+'\nChaîne Twitch : '+channel+'\nFollowers : '+followers+'\nAffilié Twitch : '+affiliation+'\nJeux joués : '+games+'\nMotivation : '+motivation+'\n\nJe confirme que ces informations sont exactes.\n';
+    const gmailUrl='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(mail)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    hint.textContent='Ouverture de Gmail… Si rien ne s’ouvre, utilise le bouton Gmail ci-dessous.';
+    let fallback=$('rdmGmailFallback');
+    if(!fallback){fallback=document.createElement('a');fallback.id='rdmGmailFallback';fallback.className='rdmBtn';fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Ouvrir Gmail avec ma candidature';hint.insertAdjacentElement('afterend',fallback);}
+    fallback.href=gmailUrl;
+    const opened=window.open(gmailUrl,'_blank','noopener');
+    if(!opened){hint.textContent='Le navigateur a bloqué la fenêtre. Clique sur « Ouvrir Gmail avec ma candidature ».';}
+    else {hint.textContent='Gmail a été ouvert. Vérifie le message puis clique sur Envoyer.';}
+  });
 })();
