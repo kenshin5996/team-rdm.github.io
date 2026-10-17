@@ -34,7 +34,34 @@ function clipEmbed(slug){ return `https://clips.twitch.tv/embed?clip=${encodeURI
 
 function showChannel(name, display){
   $('currentName').textContent = display;
-  $('playerBox').innerHTML = `<iframe allowfullscreen="true" scrolling="no" allow="autoplay; fullscreen" src="${twitchPlayer(name)}"></iframe>`;
+  $('playerBox').innerHTML = `<iframe title="Live Twitch ${display}" allowfullscreen="true" scrolling="no" allow="autoplay; fullscreen" src="${twitchPlayer(name)}"></iframe>`;
+
+  // Chat Twitch officiel associé au membre sélectionné (aucun chat séparé/Firebase).
+  let chatBox = $('rdmTwitchChatBox');
+  if(!chatBox){
+    chatBox = document.createElement('section');
+    chatBox.id = 'rdmTwitchChatBox';
+    chatBox.style.cssText = 'margin:18px 0;padding:14px;background:#080d1b;border:1px solid #278cff;border-radius:14px;color:#f4f7ff;box-shadow:0 0 18px #168bff22;';
+    const title = document.createElement('h3');
+    title.id = 'rdmTwitchChatTitle';
+    title.style.cssText = 'margin:0 0 8px;font-size:1.1rem;color:#7dddff;';
+    title.textContent = '💬 Chat Twitch officiel';
+    const note = document.createElement('p');
+    note.id = 'rdmTwitchChatNote';
+    note.style.cssText = 'margin:0 0 10px;font-size:.92rem;';
+    note.textContent = 'Connecte-toi à Twitch dans le chat pour envoyer des messages. Les règles et la modération de Twitch s’appliquent.';
+    const frame = document.createElement('iframe');
+    frame.id = 'rdmTwitchChatFrame';
+    frame.title = 'Chat Twitch officiel';
+    frame.loading = 'lazy';
+    frame.style.cssText = 'display:block;width:100%;height:500px;border:0;border-radius:8px;background:#0e0e10;';
+    frame.setAttribute('allow', 'clipboard-read; clipboard-write');
+    chatBox.append(title, note, frame);
+    const player = $('playerBox');
+    player.insertAdjacentElement('afterend', chatBox);
+  }
+  $('rdmTwitchChatTitle').textContent = `💬 Chat officiel de ${display}`;
+  $('rdmTwitchChatFrame').src = `https://www.twitch.tv/embed/${encodeURIComponent(name)}/chat?parent=${encodeURIComponent(host)}`;
   $('chaine').scrollIntoView({behavior:'smooth'});
 }
 function openTwitch(name){ window.open(`https://www.twitch.tv/${name}`, '_blank'); }
