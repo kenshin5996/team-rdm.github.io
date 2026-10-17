@@ -1,0 +1,11 @@
+TEAM RDM — ajout musique sans remplacer le script existant
+
+1. Téléversez le dossier assets (avec rdm-ambiance.mp3) à la racine du dépôt GitHub.
+2. Téléversez rdm-music-addon.js à la racine du dépôt.
+3. Ouvrez index.html et ajoutez cette ligne juste avant </body> :
+   <script src="rdm-music-addon.js"></script>
+4. Enregistrez (Commit changes), attendez le déploiement puis rechargez avec Ctrl+F5.
+
+IMPORTANT : ne remplacez PAS script.js par ce fichier. Cet ajout crée seulement un petit lecteur flottant en bas à gauche.
+La lecture commence après clic, conformément aux règles des navigateurs. Il tente d'arrêter la musique quand un membre est détecté en direct ou quand un lien/bouton Twitch est utilisé. La détection dépend du service public decapi.me.
+Assurez-vous d'avoir les droits nécessaires pour diffuser le fichier musical fourni.
