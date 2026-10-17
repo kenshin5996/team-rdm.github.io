@@ -33,6 +33,7 @@ function twitchPlayer(channel){ return `https://player.twitch.tv/?channel=${chan
 function clipEmbed(slug){ return `https://clips.twitch.tv/embed?clip=${encodeURIComponent(slug)}&parent=${host}&autoplay=false`; }
 
 function showChannel(name, display){
+  stopRdmMusic('La musique est coupée pendant le live.');
   $('currentName').textContent = display;
   $('playerBox').innerHTML = `<iframe title="Live Twitch ${display}" allowfullscreen="true" scrolling="no" allow="autoplay; fullscreen" src="${twitchPlayer(name)}"></iframe>`;
 
@@ -64,7 +65,7 @@ function showChannel(name, display){
   $('rdmTwitchChatFrame').src = `https://www.twitch.tv/embed/${encodeURIComponent(name)}/chat?parent=${encodeURIComponent(host)}`;
   $('chaine').scrollIntoView({behavior:'smooth'});
 }
-function openTwitch(name){ window.open(`https://www.twitch.tv/${name}`, '_blank'); }
+function openTwitch(name){ stopRdmMusic('La musique est coupée pendant le live.'); window.open(`https://www.twitch.tv/${name}`, '_blank'); }
 
 function renderMembers(){
   const grid = $('membersGrid'); if (!grid) return; grid.innerHTML = '';
@@ -134,6 +135,7 @@ async function checkAllLiveStatus(manual){
   $('liveSummary').textContent = manual ? 'Actualisation des lives...' : 'Vérification des lives...';
   await Promise.all(team.map(checkLiveStatus));
   renderLiveCards();
+  if(team.some(m => liveStatuses[m.name]?.live)) stopRdmMusic('Un membre est en direct : musique coupée.');
 }
 
 function extractClipSlug(url){
@@ -238,6 +240,27 @@ renderLiveCards();
 showChannel('kenshin5996','KENSHIN5996');
 checkAllLiveStatus(false);
 setInterval(()=>checkAllLiveStatus(false), 120000);
+/* Musique d'ambiance TEAM RDM — nécessite assets/rdm-ambiance.mp3 dans le dépôt. */
+(function initRdmMusic(){
+  if(document.getElementById('rdmMusicWidget')) return;
+  const css=document.createElement('style');
+  css.textContent=`#rdmMusicWidget{position:fixed;left:16px;bottom:16px;z-index:9997;width:min(300px,calc(100vw - 32px));padding:12px;background:linear-gradient(145deg,#050d1b,#100a25);border:1px solid #00c8ff;border-radius:14px;color:#f3f7ff;box-shadow:0 0 18px #168bff44;font:13px/1.4 Arial,sans-serif;box-sizing:border-box}#rdmMusicWidget *{box-sizing:border-box}#rdmMusicWidget .rdmMusicTitle{font-weight:800;color:#7dddff;margin-bottom:3px}#rdmMusicWidget .rdmMusicSub{color:#b9c6df;font-size:11px;margin-bottom:9px}#rdmMusicWidget .rdmMusicControls{display:flex;gap:8px;align-items:center}#rdmMusicWidget button{border:1px solid #248fff;border-radius:9px;padding:8px 10px;background:#101f3d;color:#fff;cursor:pointer;font-weight:700}#rdmMusicWidget input{width:100%;accent-color:#00c8ff}#rdmMusicWidget .rdmMusicVolume{flex:1;min-width:50px}`;
+  document.head.appendChild(css);
+  const box=document.createElement('section');box.id='rdmMusicWidget';box.innerHTML=`<div class="rdmMusicTitle">♫ Musique TEAM RDM</div><div class="rdmMusicSub" id="rdmMusicStatus">Clique sur Lecture pour lancer l’ambiance.</div><div class="rdmMusicControls"><button id="rdmMusicToggle" type="button">▶ Lecture</button><button id="rdmMusicMute" type="button">🔊 Son</button><div class="rdmMusicVolume"><input id="rdmMusicVolume" aria-label="Volume musique" type="range" min="0" max="100" value="18"></div></div>`;
+  document.body.appendChild(box);
+  const audio=document.createElement('audio');audio.id='rdmAmbientAudio';audio.src='assets/rdm-ambiance.mp3';audio.loop=true;audio.preload='none';audio.volume=.18;audio.setAttribute('aria-label','Musique ambiance TEAM RDM');document.body.appendChild(audio);
+  const toggle=document.getElementById('rdmMusicToggle'), mute=document.getElementById('rdmMusicMute'), volume=document.getElementById('rdmMusicVolume'), status=document.getElementById('rdmMusicStatus');
+  window.stopRdmMusic=function(message){audio.pause();toggle.textContent='▶ Lecture';if(message)status.textContent=message;};
+  toggle.addEventListener('click',async()=>{
+    if(!audio.paused){window.stopRdmMusic('Musique en pause.');return;}
+    if(Array.isArray(team) && team.some(m=>liveStatuses[m.name]?.live)){status.textContent='Un membre est en direct : musique indisponible.';return;}
+    try{await audio.play();toggle.textContent='Ⅱ Pause';status.textContent='Musique d’ambiance activée.';}catch(err){status.textContent='Lecture bloquée ou fichier audio introuvable. Vérifie assets/rdm-ambiance.mp3.';}
+  });
+  mute.addEventListener('click',()=>{audio.muted=!audio.muted;mute.textContent=audio.muted?'🔇 Muet':'🔊 Son';});
+  volume.addEventListener('input',()=>{audio.volume=Number(volume.value)/100;if(audio.volume>0 && audio.muted){audio.muted=false;mute.textContent='🔊 Son';}});
+  audio.addEventListener('error',()=>{status.textContent='Fichier audio absent : ajoute assets/rdm-ambiance.mp3 au site.';});
+})();
+
 initFirebase();
 
 
