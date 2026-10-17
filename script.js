@@ -41,20 +41,20 @@ function showChannel(name, display){
   if(!chatBox){
     chatBox = document.createElement('section');
     chatBox.id = 'rdmTwitchChatBox';
-    chatBox.style.cssText = 'margin:18px 0;padding:14px;background:#080d1b;border:1px solid #278cff;border-radius:14px;color:#f4f7ff;box-shadow:0 0 18px #168bff22;';
+    chatBox.style.cssText = 'box-sizing:border-box;width:min(360px,100%);margin:12px 0 12px auto;padding:10px;background:linear-gradient(145deg,#070d1a,#100a25);border:1px solid #00c8ff;border-radius:12px;color:#f4f7ff;box-shadow:0 0 16px #168bff33, inset 0 0 12px #6d28d911;overflow:hidden;';
     const title = document.createElement('h3');
     title.id = 'rdmTwitchChatTitle';
-    title.style.cssText = 'margin:0 0 8px;font-size:1.1rem;color:#7dddff;';
+    title.style.cssText = 'margin:0 0 5px;font-size:.9rem;line-height:1.3;color:#7dddff;text-shadow:0 0 8px #168bff55;';
     title.textContent = '💬 Chat Twitch officiel';
     const note = document.createElement('p');
     note.id = 'rdmTwitchChatNote';
-    note.style.cssText = 'margin:0 0 10px;font-size:.92rem;';
+    note.style.cssText = 'margin:0 0 7px;font-size:.72rem;line-height:1.35;color:#b9c6df;';
     note.textContent = 'Connecte-toi à Twitch dans le chat pour envoyer des messages. Les règles et la modération de Twitch s’appliquent.';
     const frame = document.createElement('iframe');
     frame.id = 'rdmTwitchChatFrame';
     frame.title = 'Chat Twitch officiel';
     frame.loading = 'lazy';
-    frame.style.cssText = 'display:block;width:100%;height:500px;border:0;border-radius:8px;background:#0e0e10;';
+    frame.style.cssText = 'display:block;width:100%;height:245px;border:1px solid #29254a;border-radius:7px;background:#080d1b;';
     frame.setAttribute('allow', 'clipboard-read; clipboard-write');
     chatBox.append(title, note, frame);
     const player = $('playerBox');
