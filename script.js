@@ -41,20 +41,20 @@ function showChannel(name, display){
   if(!chatBox){
     chatBox = document.createElement('section');
     chatBox.id = 'rdmTwitchChatBox';
-    chatBox.style.cssText = 'box-sizing:border-box !important;display:block !important;width:360px !important;max-width:100% !important;height:auto !important;min-height:0 !important;margin:12px auto 12px 0 !important;padding:10px !important;background:linear-gradient(145deg,#070d1a,#100a25) !important;border:1px solid #00c8ff !important;border-radius:12px !important;color:#f4f7ff !important;box-shadow:0 0 16px #168bff33, inset 0 0 12px #6d28d911 !important;overflow:hidden !important;flex:none !important;';
+    chatBox.style.cssText = 'box-sizing:border-box;width:min(100%,420px);margin:18px auto;padding:12px;background:linear-gradient(145deg,#080d1b,#061426);border:1px solid #00c8ff;border-radius:14px;color:#f4f7ff;box-shadow:0 0 18px #00c8ff22;overflow:hidden;';
     const title = document.createElement('h3');
     title.id = 'rdmTwitchChatTitle';
-    title.style.cssText = 'margin:0 0 5px;font-size:.9rem;line-height:1.3;color:#7dddff;text-shadow:0 0 8px #168bff55;';
+    title.style.cssText = 'margin:0 0 8px;font-size:1rem;line-height:1.3;color:#7dddff;text-align:center;';
     title.textContent = '💬 Chat Twitch officiel';
     const note = document.createElement('p');
     note.id = 'rdmTwitchChatNote';
-    note.style.cssText = 'margin:0 0 7px;font-size:.72rem;line-height:1.35;color:#b9c6df;';
+    note.style.cssText = 'margin:0 0 10px;font-size:.8rem;line-height:1.4;text-align:center;color:#c7d6e8;';
     note.textContent = 'Connecte-toi à Twitch dans le chat pour envoyer des messages. Les règles et la modération de Twitch s’appliquent.';
     const frame = document.createElement('iframe');
     frame.id = 'rdmTwitchChatFrame';
     frame.title = 'Chat Twitch officiel';
     frame.loading = 'lazy';
-    frame.style.cssText = 'display:block !important;box-sizing:border-box !important;width:100% !important;max-width:100% !important;height:220px !important;min-height:220px !important;max-height:220px !important;border:1px solid #29254a !important;border-radius:7px !important;background:#080d1b !important;';
+    frame.style.cssText = 'display:block;box-sizing:border-box;width:100%;max-width:100%;height:340px;border:0;border-radius:8px;background:#0e0e10;';
     frame.setAttribute('allow', 'clipboard-read; clipboard-write');
     chatBox.append(title, note, frame);
     const player = $('playerBox');
@@ -258,28 +258,5 @@ initFirebase();
   $('rdmSupport').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p>💙 Ce site sert à soutenir la TEAM RDM ! N’hésite pas à follow les membres sur Twitch et à leur faire un petit coucou pendant leurs lives.</p>';$('rdmApplyForm').classList.add('rdmHidden')});
   $('rdmGta').addEventListener('click',()=>{$('rdmAnswer').innerHTML='<p><b>Crews GTA</b><br><a class="rdmBtn" target="_blank" rel="noopener" href="https://socialclub.rockstargames.com/crew/team_rdmm/hierarchy">TEAM RDMM</a><a class="rdmBtn" target="_blank" rel="noopener" href="https://socialclub.rockstargames.com/crew/army-dz59/hierarchy">ARMY-DZ59</a></p>';$('rdmApplyForm').classList.add('rdmHidden')});
   $('rdmApply').addEventListener('click',()=>{$('rdmAnswer').textContent='';$('rdmApplyForm').classList.toggle('rdmHidden')});
-  $('rdmApplyForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const pseudo=$('rdmPseudo').value.trim();
-    const channel=$('rdmChannel').value.trim();
-    const followers=$('rdmFollowers').value;
-    const affiliation=$('rdmAffil').value;
-    const games=$('rdmGames').value.trim();
-    const motivation=$('rdmMotivation').value.trim();
-    const hint=$('rdmMailHint');
-    if(!/^https?:\/\/(www\.)?twitch\.tv\/[A-Za-z0-9_]+\/?$/i.test(channel)){
-      hint.textContent='Le lien Twitch ne semble pas valide. Exemple : https://www.twitch.tv/tonpseudo';
-      $('rdmChannel').focus(); return;
-    }
-    const subject='Candidature TEAM RDM - '+pseudo;
-    const body='Bonjour KENSHIN5996,\n\nJe souhaite rejoindre la TEAM RDM.\n\nPseudo Twitch : '+pseudo+'\nChaîne Twitch : '+channel+'\nFollowers : '+followers+'\nAffilié Twitch : '+affiliation+'\nJeux joués : '+games+'\nMotivation : '+motivation+'\n\nJe confirme que ces informations sont exactes.\n';
-    const gmailUrl='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(mail)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-    hint.textContent='Ouverture de Gmail… Si rien ne s’ouvre, utilise le bouton Gmail ci-dessous.';
-    let fallback=$('rdmGmailFallback');
-    if(!fallback){fallback=document.createElement('a');fallback.id='rdmGmailFallback';fallback.className='rdmBtn';fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Ouvrir Gmail avec ma candidature';hint.insertAdjacentElement('afterend',fallback);}
-    fallback.href=gmailUrl;
-    const opened=window.open(gmailUrl,'_blank','noopener');
-    if(!opened){hint.textContent='Le navigateur a bloqué la fenêtre. Clique sur « Ouvrir Gmail avec ma candidature ».';}
-    else {hint.textContent='Gmail a été ouvert. Vérifie le message puis clique sur Envoyer.';}
-  });
+  $('rdmApplyForm').addEventListener('submit',e=>{e.preventDefault();const pseudo=$('rdmPseudo').value.trim();const channel=$('rdmChannel').value.trim();const followers=$('rdmFollowers').value;const affiliation=$('rdmAffil').value;const games=$('rdmGames').value.trim();const motivation=$('rdmMotivation').value.trim();if(!/^https?:\/\/(www\.)?twitch\.tv\/[A-Za-z0-9_]+\/?$/i.test(channel)){alert('Entre un lien valide vers une chaîne Twitch.');return}const subject='Candidature TEAM RDM - '+pseudo;const body='Bonjour KENSHIN5996,\n\nJe souhaite rejoindre la TEAM RDM.\n\nPseudo Twitch : '+pseudo+'\nChaîne Twitch : '+channel+'\nFollowers : '+followers+'\nAffilié Twitch : '+affiliation+'\nJeux joués : '+games+'\nMotivation : '+motivation+'\n\nJe confirme que ces informations sont exactes.\n';window.location.href='mailto:'+mail+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body)});
 })();
