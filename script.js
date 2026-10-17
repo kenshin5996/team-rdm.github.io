@@ -41,7 +41,7 @@ function showChannel(name, display){
   if(!chatBox){
     chatBox = document.createElement('section');
     chatBox.id = 'rdmTwitchChatBox';
-    chatBox.style.cssText = 'box-sizing:border-box;width:min(360px,100%);margin:12px 0 12px auto;padding:10px;background:linear-gradient(145deg,#070d1a,#100a25);border:1px solid #00c8ff;border-radius:12px;color:#f4f7ff;box-shadow:0 0 16px #168bff33, inset 0 0 12px #6d28d911;overflow:hidden;';
+    chatBox.style.cssText = 'box-sizing:border-box !important;display:block !important;width:360px !important;max-width:100% !important;height:auto !important;min-height:0 !important;margin:12px auto 12px 0 !important;padding:10px !important;background:linear-gradient(145deg,#070d1a,#100a25) !important;border:1px solid #00c8ff !important;border-radius:12px !important;color:#f4f7ff !important;box-shadow:0 0 16px #168bff33, inset 0 0 12px #6d28d911 !important;overflow:hidden !important;flex:none !important;';
     const title = document.createElement('h3');
     title.id = 'rdmTwitchChatTitle';
     title.style.cssText = 'margin:0 0 5px;font-size:.9rem;line-height:1.3;color:#7dddff;text-shadow:0 0 8px #168bff55;';
@@ -54,7 +54,7 @@ function showChannel(name, display){
     frame.id = 'rdmTwitchChatFrame';
     frame.title = 'Chat Twitch officiel';
     frame.loading = 'lazy';
-    frame.style.cssText = 'display:block;width:100%;height:245px;border:1px solid #29254a;border-radius:7px;background:#080d1b;';
+    frame.style.cssText = 'display:block !important;box-sizing:border-box !important;width:100% !important;max-width:100% !important;height:220px !important;min-height:220px !important;max-height:220px !important;border:1px solid #29254a !important;border-radius:7px !important;background:#080d1b !important;';
     frame.setAttribute('allow', 'clipboard-read; clipboard-write');
     chatBox.append(title, note, frame);
     const player = $('playerBox');
