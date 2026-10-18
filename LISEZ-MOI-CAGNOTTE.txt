@@ -1,0 +1,31 @@
+CAGNOTTE TEAM RDM — VERSION SIMPLE
+
+Le site utilise GitHub Pages et n’a pas besoin de Render.
+
+FICHIERS AJOUTÉS :
+- donation-config.js : total, objectif et liste des donateurs à modifier manuellement.
+- donation-widget.js : affiche la barre et les donateurs.
+- index.html / style.css : ajout de la section Soutenir et de son apparence.
+
+LIEN PAYPAL
+Le bouton utilise actuellement https://paypal.me/ironfixe . Vérifie que ce lien est bien le tien avant de publier.
+
+METTRE À JOUR APRÈS UN DON
+1. Ouvre donation-config.js sur GitHub et clique sur le crayon (Modifier).
+2. Change total: 0 par le total cumulé, par exemple total: 15.
+3. Ajoute chaque donateur dans donateurs, par exemple :
+   { pseudo: "Kenshin", montant: 10 },
+   { pseudo: "JoueurRDM", montant: 5 }
+4. Clique sur Commit changes / Valider les modifications.
+
+Exemple de configuration :
+window.RDM_DONATION_CONFIG = {
+  objectif: 100,
+  total: 15,
+  donateurs: [
+    { pseudo: "Kenshin", montant: 10 },
+    { pseudo: "JoueurRDM", montant: 5 }
+  ]
+};
+
+IMPORTANT : vérifie chaque paiement dans PayPal avant d’ajouter un montant ou un pseudo. Le site ne vérifie pas les paiements automatiquement. Ne publie jamais d’informations privées de paiement.

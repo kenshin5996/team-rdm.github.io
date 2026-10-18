@@ -18,9 +18,9 @@
       <a href="#chaine">Chaîne</a>
       <a href="#clips">Clips</a>
       <a href="#visiteurs">Visiteurs</a>
-      <a href="#soutenir">Soutenir</a>
       <a href="#vocal">Vocal</a>
       <a href="#contact">Contact</a>
+      <a href="#soutenir">💜 Soutenir</a>
     </div>
     <a class="twitchBtn" href="https://www.twitch.tv/kenshin5996" target="_blank" rel="noopener">Twitch</a>
   </nav>
@@ -100,33 +100,15 @@
       </div>
     </section>
 
-
     <section id="soutenir" class="panel donationPanel">
-      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>💙 Soutenir TEAM RDM</h2></div>
-      <p class="sectionSub">Aide-nous à faire vivre le site ! Objectif : 100 €.</p>
-      <div class="donationProgress">
-        <div class="donationAmountLine"><strong id="rdmDonationRaised">0,00 €</strong><span>Objectif : 100,00 €</span></div>
-        <div class="donationTrack"><div id="rdmDonationProgress" class="donationFill"></div></div>
-        <p id="rdmDonationProgressLabel">Chargement de la cagnotte…</p>
-      </div>
-      <div class="donationForm">
-        <label for="rdmDonorPseudo">Ton pseudo (affiché publiquement)</label>
-        <input id="rdmDonorPseudo" maxlength="24" minlength="2" placeholder="Ex. RDM_Fan" autocomplete="nickname">
-        <label for="rdmDonationAmount">Montant du don (€)</label>
-        <div class="donationQuickAmounts">
-          <button type="button" data-rdm-amount="2">2 €</button>
-          <button type="button" data-rdm-amount="5">5 €</button>
-          <button type="button" data-rdm-amount="10">10 €</button>
-        </div>
-        <input id="rdmDonationAmount" type="number" min="1" max="1000" step="0.01" value="5">
-        <p class="donationPrivacy">Ton pseudo et le montant seront visibles publiquement après confirmation du paiement.</p>
-        <div id="rdmPaypalButtonContainer"></div>
-        <p id="rdmDonationStatus" role="status" aria-live="polite">La cagnotte doit être configurée par l’administrateur avant l’activation des paiements.</p>
-      </div>
-      <div class="donorWall">
-        <h3>🏆 Mur des donateurs</h3>
-        <div id="rdmDonorList"><p class="donorEmpty">Le mur des donateurs apparaîtra ici après configuration.</p></div>
-      </div>
+      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>💜 Soutenir la TEAM RDM</h2></div>
+      <p class="sectionSub">Chaque don aide la team à continuer ses projets. Merci pour votre soutien !</p>
+      <div class="donationProgressTrack" role="progressbar" aria-label="Progression de la cagnotte" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="donationProgressBar" class="donationProgressBar"></div></div>
+      <div class="donationNumbers"><strong><span id="donationTotal">0</span> € récoltés</strong><span>Objectif : 100 €</span></div>
+      <p id="donationMessage" class="donationMessage">La cagnotte démarre — chaque contribution compte !</p>
+      <a class="donationButton" href="https://paypal.me/ironfixe" target="_blank" rel="noopener noreferrer">Faire un don avec PayPal</a>
+      <div class="donorListWrap"><h3>💜 Merci aux donateurs</h3><ul id="donorList" class="donorList"><li>Les donateurs apparaîtront ici après mise à jour.</li></ul></div>
+      <p class="donationFootnote">Le montant et la liste sont mis à jour manuellement par l’équipe après vérification des dons PayPal.</p>
     </section>
 
     <section id="contact" class="infoGrid contactGrid">
@@ -140,8 +122,8 @@
   <footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
-  <script src="rdm-music-addon.js"></script>
   <script src="donation-config.js"></script>
   <script src="donation-widget.js"></script>
+  <script src="rdm-music-addon.js"></script>
 </body>
 </html>

@@ -1,4 +1,9 @@
-// Configuration publique du widget de dons TEAM RDM.
-// Après déploiement du serveur de dons, remplacez cette URL par son adresse HTTPS.
-// Exemple : window.RDM_DONATION_API_BASE = "https://votre-api.example.com";
-window.RDM_DONATION_API_BASE = "";
+// CONFIGURATION SIMPLE DE LA CAGNOTTE TEAM RDM
+// Modifie uniquement les valeurs ci-dessous après avoir vérifié les dons dans PayPal.
+window.RDM_DONATION_CONFIG = {
+  objectif: 100,
+  total: 0,
+  donateurs: [
+    // Exemple à recopier après vérification : { pseudo: "Pseudo", montant: 10 }
+  ]
+};
