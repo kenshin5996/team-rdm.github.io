@@ -18,6 +18,7 @@
       <a href="#chaine">Chaîne</a>
       <a href="#clips">Clips</a>
       <a href="#visiteurs">Visiteurs</a>
+      <a href="#soutenir">Soutenir</a>
       <a href="#vocal">Vocal</a>
       <a href="#contact">Contact</a>
     </div>
@@ -99,6 +100,35 @@
       </div>
     </section>
 
+
+    <section id="soutenir" class="panel donationPanel">
+      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>💙 Soutenir TEAM RDM</h2></div>
+      <p class="sectionSub">Aide-nous à faire vivre le site ! Objectif : 100 €.</p>
+      <div class="donationProgress">
+        <div class="donationAmountLine"><strong id="rdmDonationRaised">0,00 €</strong><span>Objectif : 100,00 €</span></div>
+        <div class="donationTrack"><div id="rdmDonationProgress" class="donationFill"></div></div>
+        <p id="rdmDonationProgressLabel">Chargement de la cagnotte…</p>
+      </div>
+      <div class="donationForm">
+        <label for="rdmDonorPseudo">Ton pseudo (affiché publiquement)</label>
+        <input id="rdmDonorPseudo" maxlength="24" minlength="2" placeholder="Ex. RDM_Fan" autocomplete="nickname">
+        <label for="rdmDonationAmount">Montant du don (€)</label>
+        <div class="donationQuickAmounts">
+          <button type="button" data-rdm-amount="2">2 €</button>
+          <button type="button" data-rdm-amount="5">5 €</button>
+          <button type="button" data-rdm-amount="10">10 €</button>
+        </div>
+        <input id="rdmDonationAmount" type="number" min="1" max="1000" step="0.01" value="5">
+        <p class="donationPrivacy">Ton pseudo et le montant seront visibles publiquement après confirmation du paiement.</p>
+        <div id="rdmPaypalButtonContainer"></div>
+        <p id="rdmDonationStatus" role="status" aria-live="polite">La cagnotte doit être configurée par l’administrateur avant l’activation des paiements.</p>
+      </div>
+      <div class="donorWall">
+        <h3>🏆 Mur des donateurs</h3>
+        <div id="rdmDonorList"><p class="donorEmpty">Le mur des donateurs apparaîtra ici après configuration.</p></div>
+      </div>
+    </section>
+
     <section id="contact" class="infoGrid contactGrid">
       <article class="infoCard"><h3>📅 Planning</h3><p>Les lives de la team apparaissent automatiquement dans la section LIVE.</p></article>
       <article class="infoCard"><h3>🎯 Mission</h3><p>Créer une team soudée, partager du gaming et soutenir chaque chaîne.</p></article>
@@ -111,5 +141,7 @@
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
   <script src="rdm-music-addon.js"></script>
+  <script src="donation-config.js"></script>
+  <script src="donation-widget.js"></script>
 </body>
 </html>

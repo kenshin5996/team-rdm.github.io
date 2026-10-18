@@ -1,0 +1,14 @@
+TEAM RDM — CAGNOTTE 100 € (AJOUT SANS REMPLACER LE SITE)
+
+Le site d'origine a été conservé. Les changements sont :
+- ajout d'un lien « Soutenir » dans le menu ;
+- ajout de la section cagnotte dans index.html ;
+- styles ajoutés à la fin de style.css ;
+- nouveaux fichiers donation-config.js et donation-widget.js ;
+- server.js, package.json et .env.example pour le serveur de paiement.
+
+IMPORTANT : GitHub Pages n'exécute pas server.js. Le serveur doit être déployé séparément sur un hébergement Node.js avec stockage persistant. Configurez les identifiants PayPal côté serveur dans .env, puis renseignez l'URL HTTPS de l'API dans donation-config.js. Ne publiez jamais PAYPAL_CLIENT_SECRET.
+
+Le widget utilise PayPal Checkout et n'ajoute un don au total/mur qu'après vérification de la capture par l'API PayPal. Les dons faits directement sur paypal.me/ironfixe ne seront pas détectés automatiquement par cette intégration.
+
+Ne téléversez pas le fichier .env contenant vos secrets dans GitHub. Seul .env.example est fourni.
