@@ -1,0 +1,3 @@
+<!-- À ajouter juste avant </body> dans index.html -->
+<link rel="stylesheet" href="./assistant-vocal.css">
+<script src="./assistant-vocal.js" defer></script>
