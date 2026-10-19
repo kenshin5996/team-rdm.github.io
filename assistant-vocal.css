@@ -1,54 +1,12 @@
-/* Team RDM — interface assistant vocal futuriste */
-.trdm-voice[hidden] { display: none !important; }
-.trdm-voice {
-  position: fixed;
-  z-index: 2147483000;
-  right: max(18px, env(safe-area-inset-right));
-  bottom: max(18px, env(safe-area-inset-bottom));
-  width: min(370px, calc(100vw - 28px));
-  box-sizing: border-box;
-  padding: 18px;
-  color: #eaf7ff;
-  background: linear-gradient(145deg, rgba(8, 17, 38, .98), rgba(18, 13, 45, .98));
-  border: 1px solid rgba(63, 210, 255, .72);
-  border-radius: 18px;
-  box-shadow: 0 0 28px rgba(0, 195, 255, .18), 0 18px 60px rgba(0, 0, 0, .45);
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  animation: trdmVoiceIn .22s ease-out;
-}
-.trdm-voice * { box-sizing: border-box; }
-.trdm-voice__top { display: flex; align-items: center; gap: 12px; }
-.trdm-voice__orb {
-  width: 48px; height: 48px; flex: 0 0 48px; display: grid; place-items: center;
-  border-radius: 50%; border: 1px solid #53e7ff;
-  background: radial-gradient(circle at 35% 25%, #3269a5, #10152e 68%);
-  box-shadow: 0 0 18px rgba(42, 214, 255, .35), inset 0 0 14px rgba(42, 214, 255, .2);
-  color: #a9f5ff; font-size: 12px; font-weight: 900; letter-spacing: 1px;
-}
-.trdm-voice__heading { display: grid; gap: 5px; flex: 1; }
-.trdm-voice__heading strong { font-size: 13px; letter-spacing: 1.8px; }
-.trdm-voice__heading small, .trdm-voice__note { color: #9db4d0; font-size: 10px; letter-spacing: .6px; }
-.trdm-voice__dot { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: #53ffb2; box-shadow: 0 0 9px #53ffb2; }
-.trdm-voice button { cursor: pointer; font: inherit; }
-.trdm-voice__close {
-  align-self: flex-start; width: 30px; height: 30px; border: 1px solid #344765;
-  border-radius: 9px; background: #121d35; color: #d7f5ff; font-size: 23px; line-height: 1;
-}
-.trdm-voice__message {
-  min-height: 76px; margin: 18px 0 14px; padding: 13px;
-  border-left: 2px solid #42ddff; border-radius: 0 10px 10px 0;
-  background: rgba(52, 120, 190, .1); color: #d9eaff; font-size: 13px; line-height: 1.65;
-}
-.trdm-voice__progress { height: 3px; overflow: hidden; border-radius: 5px; background: #26344f; margin-bottom: 14px; }
-.trdm-voice__progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #42ddff, #b56bff); transition: width .25s ease; }
-.trdm-voice__actions { display: grid; gap: 8px; }
-.trdm-voice__play, .trdm-voice__stop {
-  min-height: 42px; border-radius: 10px; padding: 10px 12px;
-  font-size: 11px !important; font-weight: 800 !important; letter-spacing: .6px;
-}
-.trdm-voice__play { color: #071426; border: 0; background: linear-gradient(100deg, #6beaff, #a4f5ff); box-shadow: 0 0 16px rgba(66, 221, 255, .12); }
-.trdm-voice__stop { color: #c9d7eb; border: 1px solid #344765; background: #111b31; }
-.trdm-voice__note { display: block; margin-top: 12px; text-align: center; letter-spacing: 0; }
-.trdm-voice button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-@keyframes trdmVoiceIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@media (prefers-reduced-motion: reduce) { .trdm-voice { animation: none; } .trdm-voice__progress span { transition: none; } }
+#rdm-assistance-button{position:fixed;right:22px;bottom:22px;z-index:9998;border:1px solid #31d8ff;border-radius:999px;padding:14px 20px;background:linear-gradient(135deg,#073b67,#24105f);color:#fff;font-weight:800;letter-spacing:.4px;box-shadow:0 0 18px #00bfff66;cursor:pointer}
+#rdm-assistance-button:hover{box-shadow:0 0 28px #00d9ff99;transform:translateY(-2px)}
+#rdm-assistance-panel{position:fixed;right:22px;bottom:84px;z-index:9999;width:min(340px,calc(100vw - 32px));padding:20px;border:1px solid #1ccfff;border-radius:18px;background:linear-gradient(145deg,rgba(3,17,39,.98),rgba(24,10,60,.98));color:#effaff;box-shadow:0 0 30px #00aaff33;font-family:Arial,sans-serif;display:none}
+#rdm-assistance-panel.open{display:block;animation:rdmAssistIn .2s ease-out}
+#rdm-assistance-panel h3{margin:0 0 8px;color:#63e6ff;font-size:18px}
+#rdm-assistance-panel p{font-size:14px;line-height:1.55;color:#d7e9ff}
+#rdm-assistance-panel .rdm-assist-actions{display:flex;gap:8px;flex-wrap:wrap}
+#rdm-assistance-panel button{border:1px solid #2bd8ff;border-radius:9px;padding:9px 12px;background:#092d4a;color:white;cursor:pointer;font-weight:700}
+#rdm-assistance-panel button:hover{background:#124d72}
+#rdm-assistance-panel .rdm-assist-status{font-size:12px;color:#7beaff;min-height:16px}
+@keyframes rdmAssistIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){#rdm-assistance-button{right:12px;bottom:12px;padding:12px 15px}#rdm-assistance-panel{right:12px;bottom:72px}}

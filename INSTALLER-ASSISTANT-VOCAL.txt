@@ -1,0 +1,12 @@
+ASSISTANT VOCAL TEAM RDM — VERSION INTÉGRÉE
+
+Le bouton « ✦ Assistance » apparaît en bas à droite du site. Au clic, il ouvre le panneau et lit un message d'accueil en français. Les boutons permettent de relancer ou d'arrêter la voix.
+
+Installation sur GitHub :
+1. Ouvrez votre dépôt GitHub.
+2. Téléversez les fichiers et dossiers contenus dans cette archive (pas le dossier parent lui-même) à la racine du dépôt.
+3. Acceptez le remplacement de index.html et cliquez sur Commit changes.
+4. Dans Settings > Pages, vérifiez que la publication est activée depuis la branche main et le dossier /(root).
+5. Ouvrez l'adresse affichée par le bouton « Visit site ».
+
+La voix utilise la synthèse vocale intégrée au navigateur. Le navigateur peut proposer une voix différente selon l'appareil.
