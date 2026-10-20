@@ -1,0 +1,20 @@
+TEAM RDM — CONFIGURER L'ENVOI DIRECT DES CANDIDATURES
+
+Le formulaire est préparé pour envoyer directement via EmailJS. Il faut configurer une fois le service, sinon le formulaire propose Gmail en secours.
+
+1. Crée un compte sur https://www.emailjs.com/ et connecte une adresse e-mail qui peut recevoir/envoyer les candidatures.
+2. Dans Email Services, crée un service e-mail et copie le Service ID.
+3. Dans Email Templates, crée un modèle avec ces variables :
+   {{to_email}}
+   {{pseudo_twitch}}
+   {{channel_twitch}}
+   {{followers_twitch}}
+   {{affiliation_twitch}}
+   {{jeux_joues}}
+   {{motivation}}
+   {{subject}}
+4. Mets comme destinataire du modèle l'adresse dynamique {{to_email}} (ou configure le destinataire à kenshin5996pro@gmail.com dans le modèle).
+5. Copie la Public Key, le Service ID et le Template ID dans emailjs-config.js à la place des valeurs REMPLACER_...
+6. Enregistre ces fichiers sur GitHub (index.html, script.js, emailjs-config.js) et teste une candidature.
+
+Important : ne mets jamais de clé privée ou de secret serveur dans le site public. La Public Key EmailJS est conçue pour être utilisée côté navigateur. Configure des limites anti-abus dans EmailJS. L'envoi direct ne fonctionnera qu'après la configuration réelle du compte et du modèle.
