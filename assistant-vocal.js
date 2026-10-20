@@ -2,7 +2,7 @@
 (() => {
   const closing = " N’hésitez pas à rejoindre les réseaux de mon créateur, Kenshin5996. Les liens disponibles sont sur le site. Merci d’être passé chez la TEAM RDM, et à bientôt !";
   const scripts = {
-    welcome: "Salut et bienvenue sur le site de la TEAM RDM ! Je suis l’assistant vocal. Choisissez une rubrique et je vous explique tout simplement comment ça fonctionne.",
+    welcome: "Salut et bienvenue sur le site de la TEAM RDM ! Je suis l’assistant vocal, et je vais vous présenter le site en quelques instants. Dans la rubrique Règlement, vous trouverez les règles essentielles pour garder une bonne ambiance : respect, fair-play, pas d’insultes, pas de harcèlement et pas de triche. Dans la rubrique Candidature, vous pouvez découvrir comment proposer votre profil pour rejoindre la team. Il faut avoir au moins 100 followers sur Twitch et être affilié Twitch avant d’envoyer votre candidature. Préparez votre pseudo, le lien de votre chaîne, les jeux auxquels vous jouez et votre motivation. Dans la rubrique Crews GTA, vous trouverez les informations et les liens disponibles pour découvrir les crews RDM et demander à les rejoindre. Dans la rubrique Soutenir la team, vous pouvez aider les streamers RDM en suivant leurs chaînes, en passant sur leurs lives, en partageant leurs contenus et en les encourageant dans le chat. Si vous souhaitez soutenir le site lui-même, le bouton PayPal vous permet de faire un don facultatif. Même un euro ou cinq euros sont appréciés, mais ce n’est absolument pas obligatoire. Prenez le temps de parcourir les rubriques et de cliquer sur les liens qui vous intéressent. Vous pouvez également rejoindre les réseaux sociaux de mon créateur, Kenshin5996, grâce aux liens présents sur le site. Merci pour votre visite, profitez bien de votre passage chez TEAM RDM, et à bientôt !",
     rules: "Voici le règlement de la TEAM RDM. Premièrement, respectez les membres et les autres joueurs. Gardez une bonne ambiance, restez fair-play, et évitez les insultes, le harcèlement et la triche. Respectez aussi les consignes des responsables ainsi que les règles des jeux et des plateformes. Ne partagez pas d’informations privées. En cas de problème, adressez-vous calmement à un responsable. Les candidatures sont étudiées par le créateur de la team." + closing,
     apply: "Vous souhaitez candidater pour rejoindre la TEAM RDM ? Merci pour votre intérêt ! Pour envoyer une candidature, vous devez avoir au moins 100 followers sur Twitch et être déjà affilié Twitch. Préparez votre pseudo, le lien de votre chaîne, les jeux auxquels vous jouez et quelques phrases pour expliquer votre motivation. Remplissez ensuite le formulaire. Si vous n’avez pas encore les 100 followers ou si vous n’êtes pas encore affilié, ce n’est pas grave : continuez à développer votre chaîne et revenez quand les deux conditions seront remplies." + closing,
     gta: "Vous aimez GTA et vous aimeriez jouer avec la communauté RDM ? Cliquez sur l’un des liens des crews affichés dans cette rubrique, consultez la page Rockstar et suivez les instructions pour demander à rejoindre le crew. Nous vous souhaitons de bonnes sessions, du respect et une bonne ambiance. Si vous êtes intéressé par la communauté RDM, vous êtes au bon endroit !" + closing,
@@ -94,24 +94,11 @@
       }, 30);
     });
 
+    // Les rubriques restent cliquables, mais ne déclenchent plus de voix.
+    // La seule narration est la présentation générale au moment de l’ouverture.
     panel.addEventListener('click', event => {
       const button = event.target.closest('button, a');
-      if (!button) return;
-      const map = {
-        rdmRules: 'rules', rdmSupport: 'support', rdmApply: 'apply',
-        rdmGta: 'gta', rdmPaypal: 'paypal'
-      };
-      if (button.id === 'rdmClose' || button.classList.contains('rdmClose')) { stop(); return; }
-      if (map[button.id]) window.setTimeout(() => speak(scripts[map[button.id]]), 80);
-    });
-
-    const form = $('rdmApplyForm');
-    if (form) form.addEventListener('submit', () => {
-      const followers = Number($('rdmFollowers')?.value || 0);
-      const affiliate = $('rdmAffil')?.value;
-      if (followers < 100) window.setTimeout(() => speak(scripts.notEligibleFollowers), 50);
-      else if (affiliate !== 'Oui') window.setTimeout(() => speak(scripts.notEligibleAffiliate), 50);
-      else window.setTimeout(() => speak(scripts.eligible), 50);
+      if (button && (button.id === 'rdmClose' || button.classList.contains('rdmClose'))) stop();
     });
   }
 
