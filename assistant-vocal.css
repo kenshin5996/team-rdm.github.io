@@ -16,17 +16,6 @@
   box-shadow: 0 0 20px #00bfff55;
   transition: transform .18s ease, box-shadow .18s ease;
 }
-#rdmHelpButton::before {
-  content: "";
-  display: inline-block;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #07162b url("assets/wolf-logo.png") center / cover no-repeat;
-  border: 1px solid #24d8ff;
-  box-shadow: 0 0 12px #00bfff66;
-}
 #rdmHelpButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 28px #00d9ff99;
