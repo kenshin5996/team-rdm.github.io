@@ -19,26 +19,8 @@
     .gameBody{padding:22px}.gameBody h2{color:#52ceff;margin:0 0 12px;font-size:1.35rem}.gameBody p,.gameBody li{color:#d8eaff;line-height:1.65}.gameBody ol,.gameBody ul{padding-left:22px}.tag{display:inline-block;padding:5px 10px;border:1px solid #23b9ff;border-radius:7px;color:#6cdbff;font-weight:900;letter-spacing:2px}
     .guideNotice{padding:16px 18px;border-left:4px solid #a855f7;background:#140e2a;border-radius:8px;color:#eee4ff;line-height:1.7;margin:18px 0}
     .guideLink{display:inline-block;margin-top:8px;padding:11px 16px;border-radius:8px;background:linear-gradient(90deg,#155eaa,#5b21b6);color:#fff;text-decoration:none;font-weight:800;border:1px solid #42c5ff}
-
-    .loadoutsPanel{background:radial-gradient(ellipse at top,rgba(15,91,130,.22),transparent 58%),rgba(2,15,28,.92)}
-    .loadoutLabels{display:flex;flex-direction:column;align-items:center;gap:8px;margin:18px auto 12px;color:#76f7c5;font-weight:900;text-shadow:0 0 12px #00e8b0;letter-spacing:1px}
-    .loadoutScreenshot{display:block;width:min(100%,1100px);margin:0 auto;border:2px solid #00d9e8;border-radius:14px;overflow:hidden;box-shadow:0 0 28px rgba(0,220,255,.25);background:#030812}
-    .loadoutScreenshot img{display:block;width:100%;height:auto}
-    .loadoutHint{text-align:center;color:#bcdcf2;font-size:.92rem;margin:14px 0 0;line-height:1.6}
-    @media(max-width:650px){.loadoutScreenshot{border-radius:8px}.loadoutHint{font-size:.85rem}}
     .guideBack{display:inline-block;margin:20px 0;color:#6bd5ff;font-weight:800;text-decoration:none}
     @media(max-width:650px){.guideHero{padding:30px 16px}.gameBody{padding:18px}}
-  
-    .loadoutGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:22px}
-    .loadoutCard{background:linear-gradient(145deg,rgba(9,17,25,.96),rgba(13,25,35,.94));border:1px solid rgba(0,220,255,.42);border-radius:12px;padding:12px;box-shadow:0 0 16px rgba(0,210,255,.10);overflow:hidden}
-    .loadoutCard>a{display:block;border-radius:8px;overflow:hidden;border:1px solid rgba(0,220,255,.24)}
-    .loadoutCard img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform .25s ease}
-    .loadoutCard a:hover img{transform:scale(1.035)}
-    .loadoutCard h3{margin:12px 2px 6px;color:#7ff3ff;font-size:1.05rem}
-    .loadoutCard p{margin:0 2px 6px;color:#c3d0d9;font-size:.9rem}
-    .loadoutCard .loadoutLabels{display:flex;justify-content:space-between;gap:8px;margin:2px 2px 10px;color:#ff9c36;font-weight:800;letter-spacing:.06em;font-size:.78rem}
-    @media(max-width:600px){.loadoutGrid{grid-template-columns:1fr}.loadoutCard img{aspect-ratio:16/10}}
-
   </style>
 </head>
 <body>
@@ -77,18 +59,6 @@
       </div>
       <div class="guideNotice"><b>À savoir :</b> il n’y a pas un menu identique pour absolument tous les Call of Duty. Certains épisodes ne proposent pas le tag de clan, ou limitent les caractères. Si « RDM » est refusé, regarde la règle affichée à l’écran et ne modifie pas de fichiers du jeu.</div>
     </section>
-    <section class="panel loadoutsPanel" id="configurations-armes">
-      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Configurations d’armes — Call of Duty</h2></div>
-      <p class="sectionSub">Retrouve ici les classes d’armes de la TEAM RDM, présentées comme sur ton exemple. Les images peuvent être remplacées par tes propres captures pour chaque configuration.</p>
-      <div class="loadoutLabels">
-        <span>MVP</span><span>VOYAK</span><span>MPC</span>
-      </div>
-      <a class="loadoutScreenshot" href="assets/configurations-armes-cod.png" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la capture des configurations d’armes en grand">
-        <img src="assets/configurations-armes-cod.png" alt="Exemple de configurations d’armes Call of Duty : MVP, VOYAK et MPC" loading="lazy">
-      </a>
-      <p class="loadoutHint">Clique sur la capture pour l’agrandir. Pour afficher chaque classe séparément, envoie-moi les captures individuelles de MVP, VOYAK et MPC.</p>
-    </section>
-
     <section class="panel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Autres jeux de la team</h2></div>
       <div class="gameGrid">
@@ -149,39 +119,6 @@
     </section>
 
     <a class="guideBack" href="index.html">← Retour à l’accueil TEAM RDM</a>
-  
-    <section class="panel loadoutsPanel" id="classement-bo6-warzone">
-      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Classement BO6 &amp; Warzone</h2></div>
-      <p class="sectionSub">Les configurations d’armes partagées par la TEAM RDM.</p>
-      <div class="loadoutGrid">
-        <article class="loadoutCard">
-          <div class="loadoutLabels"><span>VMP D’ÉLITE</span><span>BO6</span></div>
-          <a href="assets/vmp-delite-warzone.png" target="_blank" rel="noopener"><img src="assets/vmp-delite-warzone.png" alt="Capture de configuration d’arme VMP d’élite"></a>
-          <h3>VMP d’élite</h3>
-          <p>Configuration partagée — accessoires visibles sur la capture.</p>
-        </article>
-        <article class="loadoutCard">
-          <div class="loadoutLabels"><span>PP-919</span><span>WARZONE</span></div>
-          <a href="assets/configurations-armes-cod.png" target="_blank" rel="noopener"><img src="assets/configurations-armes-cod.png" alt="Configuration d’arme PP-919"></a>
-          <h3>PP-919 (39)</h3>
-          <p>Classe d’arme envoyée par la communauté.</p>
-        </article>
-        <article class="loadoutCard">
-          <div class="loadoutLabels"><span>JACKAL PDW</span><span>BO6</span></div>
-          <a href="assets/configurations-armes-cod.png" target="_blank" rel="noopener"><img src="assets/configurations-armes-cod.png" alt="Configuration d’arme Jackal PDW"></a>
-          <h3>Jackal PDW — Modèle pro</h3>
-          <p>Classe d’arme envoyée par la communauté.</p>
-        </article>
-        <article class="loadoutCard">
-          <div class="loadoutLabels"><span>FFAR 1</span><span>WARZONE</span></div>
-          <a href="assets/configurations-armes-cod.png" target="_blank" rel="noopener"><img src="assets/configurations-armes-cod.png" alt="Configuration d’arme FFAR 1"></a>
-          <h3>FFAR 1</h3>
-          <p>Classe d’arme envoyée par la communauté.</p>
-        </article>
-      </div>
-      <p class="sectionSub">Clique sur une image pour l’ouvrir en grand. Les captures individuelles peuvent être remplacées par les images originales de chaque arme.</p>
-    </section>
-
   </main>
   <footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
 </body>
