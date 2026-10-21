@@ -19,6 +19,13 @@
     .gameBody{padding:22px}.gameBody h2{color:#52ceff;margin:0 0 12px;font-size:1.35rem}.gameBody p,.gameBody li{color:#d8eaff;line-height:1.65}.gameBody ol,.gameBody ul{padding-left:22px}.tag{display:inline-block;padding:5px 10px;border:1px solid #23b9ff;border-radius:7px;color:#6cdbff;font-weight:900;letter-spacing:2px}
     .guideNotice{padding:16px 18px;border-left:4px solid #a855f7;background:#140e2a;border-radius:8px;color:#eee4ff;line-height:1.7;margin:18px 0}
     .guideLink{display:inline-block;margin-top:8px;padding:11px 16px;border-radius:8px;background:linear-gradient(90deg,#155eaa,#5b21b6);color:#fff;text-decoration:none;font-weight:800;border:1px solid #42c5ff}
+
+    .loadoutsPanel{background:radial-gradient(ellipse at top,rgba(15,91,130,.22),transparent 58%),rgba(2,15,28,.92)}
+    .loadoutLabels{display:flex;flex-direction:column;align-items:center;gap:8px;margin:18px auto 12px;color:#76f7c5;font-weight:900;text-shadow:0 0 12px #00e8b0;letter-spacing:1px}
+    .loadoutScreenshot{display:block;width:min(100%,1100px);margin:0 auto;border:2px solid #00d9e8;border-radius:14px;overflow:hidden;box-shadow:0 0 28px rgba(0,220,255,.25);background:#030812}
+    .loadoutScreenshot img{display:block;width:100%;height:auto}
+    .loadoutHint{text-align:center;color:#bcdcf2;font-size:.92rem;margin:14px 0 0;line-height:1.6}
+    @media(max-width:650px){.loadoutScreenshot{border-radius:8px}.loadoutHint{font-size:.85rem}}
     .guideBack{display:inline-block;margin:20px 0;color:#6bd5ff;font-weight:800;text-decoration:none}
     @media(max-width:650px){.guideHero{padding:30px 16px}.gameBody{padding:18px}}
   </style>
@@ -59,6 +66,18 @@
       </div>
       <div class="guideNotice"><b>À savoir :</b> il n’y a pas un menu identique pour absolument tous les Call of Duty. Certains épisodes ne proposent pas le tag de clan, ou limitent les caractères. Si « RDM » est refusé, regarde la règle affichée à l’écran et ne modifie pas de fichiers du jeu.</div>
     </section>
+    <section class="panel loadoutsPanel" id="configurations-armes">
+      <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Configurations d’armes — Call of Duty</h2></div>
+      <p class="sectionSub">Retrouve ici les classes d’armes de la TEAM RDM, présentées comme sur ton exemple. Les images peuvent être remplacées par tes propres captures pour chaque configuration.</p>
+      <div class="loadoutLabels">
+        <span>MVP</span><span>VOYAK</span><span>MPC</span>
+      </div>
+      <a class="loadoutScreenshot" href="assets/configurations-armes-cod.png" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la capture des configurations d’armes en grand">
+        <img src="assets/configurations-armes-cod.png" alt="Exemple de configurations d’armes Call of Duty : MVP, VOYAK et MPC" loading="lazy">
+      </a>
+      <p class="loadoutHint">Clique sur la capture pour l’agrandir. Pour afficher chaque classe séparément, envoie-moi les captures individuelles de MVP, VOYAK et MPC.</p>
+    </section>
+
     <section class="panel">
       <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Autres jeux de la team</h2></div>
       <div class="gameGrid">
