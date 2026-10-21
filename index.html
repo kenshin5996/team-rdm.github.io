@@ -23,7 +23,10 @@
       <a href="#contact">Contact</a>
       <a href="#soutenir">💜 Soutenir</a>
     </div>
-    <a class="twitchBtn" href="https://www.twitch.tv/kenshin5996" target="_blank" rel="noopener">Twitch</a>
+    <div class="accountActions">
+      <button class="discordLoginBtn" id="rdmDiscordLogin" type="button" onclick="RDMAuth.login()"><svg class="discordSvg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.7 5.3a18.4 18.4 0 0 0-4.6-1.4l-.6 1.2a17 17 0 0 0-5 0l-.6-1.2a18.4 18.4 0 0 0-4.6 1.4C1.4 9.6.6 13.8 1 18a18.5 18.5 0 0 0 5.7 2.9l1.2-2a12 12 0 0 1-1.9-.9l.5-.4a13.2 13.2 0 0 0 11 0l.5.4a12 12 0 0 1-1.9.9l1.2 2A18.5 18.5 0 0 0 23 18c.5-4.9-.8-9-3.3-12.7ZM8.6 14.8c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.8 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/></svg> Connexion</button>
+      <button class="accountIconBtn" id="rdmAccountButton" type="button" aria-label="Mon compte" title="Mon compte" onclick="RDMAuth.openProfile()">👤⚙</button>
+    </div>
   </nav>
 
   <header id="accueil" class="hero">
@@ -115,11 +118,20 @@
     </section>
   </main>
 
+  <section id="rdmAccountModal" class="rdmAccountModal" hidden aria-modal="true" role="dialog" aria-labelledby="rdmAccountTitle">
+    <div class="rdmAccountCard">
+      <button class="rdmAccountClose" type="button" aria-label="Fermer" onclick="RDMAuth.closeProfile()">×</button>
+      <h2 id="rdmAccountTitle">🐺 Mon compte RDM</h2>
+      <div id="rdmAccountContent"><p>Chargement du compte…</p></div>
+    </div>
+  </section>
   <footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="emailjs-config.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="auth-config.js"></script>
   <script src="script.js"></script>
+  <script src="rdm-auth.js"></script>
   <script src="donation-config.js"></script>
   <script src="donation-widget.js"></script>
   <script src="rdm-music-addon.js"></script>
