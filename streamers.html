@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Membres & Streamers — TEAM RDM</title><link rel="stylesheet" href="style.css"><link rel="icon" href="assets/wolf-logo.png">
+<style>
+.directoryHero{text-align:center;padding:30px 20px;background:linear-gradient(120deg,#062844,#17123b);border:1px solid #087db8;border-radius:14px;margin-bottom:24px}
+.directoryHero img{width:min(380px,90%);max-height:100px;object-fit:contain}.directoryHero h1{color:#38bdf8;text-shadow:0 0 14px #009dff}
+.streamerGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.streamerCard{background:linear-gradient(180deg,#06213a,#03101f);border:1px solid #008fe0;border-radius:13px;text-align:center;padding:24px 18px;min-width:0}
+.streamerCard img{width:120px;height:120px;object-fit:cover;border-radius:50%;border:3px solid #a647ff;margin:12px auto;display:block}
+.streamerCard h2{font-size:21px;margin:8px 0}.streamerCard p{color:#cde6fa}
+.streamerCard a{display:block;margin-top:10px;padding:12px;border-radius:8px;background:linear-gradient(90deg,#250054,#07568a);border:1px solid #20baff;color:white;text-decoration:none;font-weight:900}
+</style></head><body>
+<nav class="navbar"><a class="brand" href="index.html"><img src="assets/wolf-logo.png" alt="Logo RDM"><span>RDM</span></a><a class="twitchBtn" href="index.html">Retour au site</a></nav>
+<main><header class="directoryHero"><img src="assets/rdm_banner.png" alt="Bannière TEAM RDM"><h1>👥 MEMBRES & STREAMERS RDM</h1><p>Choisis un membre pour ouvrir sa page dédiée et regarder sa chaîne directement sur le site.</p></header>
+<section class="panel"><div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Les chaînes de la team</h2></div><div class="streamerGrid" id="streamerGrid"></div></section>
+<a class="guideBack" href="index.html">← Retour à l’accueil TEAM RDM</a></main><footer>© 2026 TEAM RDM — Créateur : <b>kenshin5996</b></footer>
+<script>
+const members=[
+{name:'kenshin5996',display:'KENSHIN5996',role:'Créateur',followers:'217 followers'},
+{name:'c_djo',display:'C_DJO',role:'Membre',followers:'475 followers'},
+{name:'manimang0',display:'MANIMANG0',role:'Membre',followers:'5 followers'},
+{name:'fandeipromxtrollmod',display:'FANDEIPROMXTROLLMOD',role:'Membre',followers:'2 k followers'},
+{name:'theoherlintw',display:'THEOHERLINTW',role:'Membre',followers:'6 followers'},
+{name:'kvsmaszo',display:'KVS MASZO',role:'Membre',followers:'1 follower'}
+];
+document.getElementById('streamerGrid').innerHTML=members.map(m=>`<article class="streamerCard"><strong class="badge \${m.role==='Créateur'?'creator':''}">\${m.role}</strong><img src="https://unavatar.io/twitch/\${m.name}" alt="Profil \${m.display}" onerror="this.src='assets/wolf-logo.png'"><h2>\${m.display}</h2><p>\${m.followers}</p><a href="streamer.html?channel=\${encodeURIComponent(m.name)}">▶ Voir la chaîne sur le site</a><a href="https://www.twitch.tv/\${m.name}" target="_blank" rel="noopener noreferrer">Ouvrir Twitch ↗</a></article>`).join('');
+</script></body></html>
