@@ -20,3 +20,17 @@
 
 
 
+
+
+/* Répertoire des catégories — ajout autonome, sans modifier les composants existants */
+.categoryHub{scroll-margin-top:96px}
+.categoryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.categoryTile{display:flex;align-items:center;gap:14px;min-width:0;padding:18px 16px;border:1px solid rgba(0,183,255,.48);border-radius:12px;background:linear-gradient(135deg,rgba(7,36,61,.96),rgba(4,13,28,.96));color:#fff;text-decoration:none;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.categoryTile:hover,.categoryTile:focus-visible{transform:translateY(-2px);border-color:#55d5ff;box-shadow:0 8px 24px rgba(0,157,255,.16);outline:none}
+.categoryIcon{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:10px;background:rgba(0,157,255,.12);border:1px solid rgba(0,183,255,.3);font-size:23px}
+.categoryTile>span:nth-child(2){display:flex;flex-direction:column;gap:5px;min-width:0}
+.categoryTile strong{font-size:15px;letter-spacing:.3px}
+.categoryTile small{color:#b8d9ef;font-size:12px;line-height:1.4}
+.categoryArrow{margin-left:auto;color:#58d5ff;font-size:20px}
+@media(max-width:900px){.categoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.categoryGrid{grid-template-columns:1fr}.categoryTile{padding:15px}.categoryHub{padding:20px 16px}.categoryHub .sectionTitle h2{font-size:25px}}
