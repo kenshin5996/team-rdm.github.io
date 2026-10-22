@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Résultats et prestiges Call of Duty de Kenshin5993, TEAM RDM.">
+<title>Résultats sur les jeux Call of Duty — TEAM RDM</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="assets/wolf-logo.png">
+<style>
+.codHero{position:relative;overflow:hidden;text-align:center;padding:42px 22px;margin-bottom:24px;border:1px solid #078fcf;border-radius:16px;background:radial-gradient(ellipse at 20% 50%,#0a3964 0,transparent 55%),radial-gradient(ellipse at 85% 20%,#32145d 0,transparent 48%),linear-gradient(135deg,#020a15,#07172d 55%,#08091c)}
+.codHero:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(115deg,transparent 0 50px,#0aa9ff0b 51px 53px)}
+.codHero>*{position:relative;z-index:1}
+.codLogo{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 0 12px #00aaff);margin:auto}
+.codHero h1{font-size:clamp(2rem,5vw,3.6rem);margin:8px 0;color:#38c8ff;letter-spacing:1px;text-shadow:0 0 18px #0078ff80}
+.codHero h1 span{background:linear-gradient(90deg,#35d4ff,#8c55ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.codHero p{color:#d8edff;line-height:1.65;margin:8px auto;max-width:720px}
+.codTag{display:inline-block;margin-top:8px;padding:7px 14px;border:1px solid #6b45ff;border-radius:999px;background:#150d35;color:#cbb8ff;font-weight:900;letter-spacing:2px}
+.codGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:18px}
+.codCard{--accent:#20bfff;position:relative;overflow:hidden;display:flex;flex-direction:column;min-width:0;border:1px solid var(--accent);border-radius:14px;background:linear-gradient(155deg,#081b30 0%,#030b15 78%);box-shadow:0 0 18px color-mix(in srgb,var(--accent) 15%,transparent)}
+.codCard:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.codCard.bo6{--accent:#28bfff}.codCard.mw3{--accent:#48d6ff}.codCard.bo7{--accent:#ff333f}.codCard.bo4{--accent:#ff9a24}.codCard.bo2{--accent:#cbd3df}
+.codCardHead{padding:20px 18px 12px;text-align:center;background:radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 75%)}
+.codCardHead .gameLabel{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:900;text-transform:uppercase}
+.codCardHead h2{margin:8px 0 0;color:#fff;font-size:1.35rem;line-height:1.25}
+.emblemBox{height:150px;display:grid;place-items:center;padding:12px 20px}
+.emblemBox img{max-width:100%;max-height:140px;object-fit:contain;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--accent) 30%,transparent))}
+.emblemBox .wolfEmblem{width:126px;height:126px;object-fit:contain;border-radius:50%;padding:9px;background:radial-gradient(circle,#123b5d,#020913 70%);border:1px solid var(--accent)}
+.emblemBox .bo2Emblem{width:122px;height:122px;border:3px solid #aab4c2;border-radius:50%;display:grid;place-items:center;color:#eef4ff;font-size:42px;font-weight:900;text-shadow:0 0 12px #fff;background:radial-gradient(circle,#303845,#07090e 70%)}
+.codStats{margin:auto 16px 16px;padding:15px;border:1px solid color-mix(in srgb,var(--accent) 65%,transparent);border-radius:10px;background:#020812b8;text-align:center}
+.codRank{color:var(--accent);font-weight:1000;text-transform:uppercase;letter-spacing:1px;font-size:1.05rem}
+.codLevel{display:flex;justify-content:center;align-items:baseline;gap:9px;margin-top:9px;color:#dbeaff;text-transform:uppercase;font-size:12px;letter-spacing:1px}
+.codLevel strong{font-size:2.4rem;line-height:1;color:#fff;text-shadow:0 0 12px color-mix(in srgb,var(--accent) 65%,transparent)}
+.codPseudo{padding:0 12px 20px;text-align:center;font-weight:1000;font-style:italic;font-size:1.25rem;letter-spacing:.5px;color:var(--accent);text-shadow:0 0 14px color-mix(in srgb,var(--accent) 35%,transparent)}
+.codNote{margin-top:20px;padding:16px 18px;border-left:4px solid #a855f7;background:#140e2a;border-radius:8px;color:#e9e2ff;line-height:1.65}
+.codBack{display:inline-block;margin:20px 0;color:#6bd5ff;font-weight:900;text-decoration:none}
+@media(max-width:600px){.codHero{padding:30px 16px}.emblemBox{height:125px}.emblemBox img{max-height:115px}}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="brand" href="index.html"><img src="assets/wolf-logo.png" alt="Logo RDM"><span>RDM</span></a>
+  <button class="menuBtn" id="menuBtn" aria-label="Menu">☰</button>
+  <div class="links" id="navLinks">
+    <a href="index.html">Accueil</a>
+    <a href="index.html#live">Live</a>
+    <a href="index.html#equipe">Équipe</a>
+    <a href="index.html#chaine">Chaîne</a>
+    <a href="index.html#clips">Clips</a>
+    <a href="jeux.html">Jeux & Clan RDM</a>
+    <a href="resultats-cod.html" aria-current="page">Résultats Call of Duty</a>
+    <a href="index.html#visiteurs">Visiteurs</a>
+    <a href="index.html#vocal">Vocal</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="index.html#soutenir">💜 Soutenir</a>
+  </div>
+</nav>
+<main>
+  <header class="codHero">
+    <img class="codLogo" src="assets/wolf-logo.png" alt="Logo TEAM RDM">
+    <h1><span>KENSHIN5993</span></h1>
+    <h2>RÉSULTATS SUR LES JEUX CALL OF DUTY</h2>
+    <p>Mon parcours, mes prestiges et mes niveaux sur plusieurs générations de Call of Duty.</p>
+    <span class="codTag">TEAM RDM · PLAY HARD · STAY RDM</span>
+  </header>
+  <section class="panel">
+    <div class="sectionTitle"><img src="assets/wolf-logo.png" alt=""><h2>Mes prestiges & niveaux</h2></div>
+    <p class="sectionSub">Chaque jeu possède sa propre couleur et son emblème. Les images de prestige fournies sont utilisées pour Black Ops 7, MWIII et Black Ops 4.</p>
+    <div class="codGrid">
+      <article class="codCard bo6">
+        <div class="codCardHead"><div class="gameLabel">Call of Duty</div><h2>BLACK OPS 6</h2></div>
+        <div class="emblemBox"><img class="wolfEmblem" src="assets/wolf-logo.png" alt="Emblème du loup fourni pour Black Ops 6"></div>
+        <div class="codStats"><div class="codRank">Maître Prestige</div><div class="codLevel"><span>Niveau</span><strong>130</strong></div></div>
+        <div class="codPseudo">KENSHIN5993</div>
+      </article>
+      <article class="codCard mw3">
+        <div class="codCardHead"><div class="gameLabel">Call of Duty</div><h2>MODERN WARFARE III</h2></div>
+        <div class="emblemBox"><img src="assets/prestige-mw3.png" alt="Emblème Modern Warfare III fourni par le joueur"></div>
+        <div class="codStats"><div class="codRank">Progression MWIII</div><div class="codLevel"><span>Niveau</span><strong>50</strong></div></div>
+        <div class="codPseudo">KENSHIN5993</div>
+      </article>
+      <article class="codCard bo7">
+        <div class="codCardHead"><div class="gameLabel">Call of Duty</div><h2>BLACK OPS 7</h2></div>
+        <div class="emblemBox"><img src="assets/prestige-bo7.png" alt="Emblème Prestige 9 Black Ops 7 fourni par le joueur"></div>
+        <div class="codStats"><div class="codRank">Prestige 9</div><div class="codLevel"><span>Niveau</span><strong>55</strong></div></div>
+        <div class="codPseudo">KENSHIN5993</div>
+      </article>
+      <article class="codCard bo4">
+        <div class="codCardHead"><div class="gameLabel">Call of Duty</div><h2>BLACK OPS 4</h2></div>
+        <div class="emblemBox"><img src="assets/prestige-bo4.png" alt="Emblème Prestige 4 Black Ops 4 fourni par le joueur"></div>
+        <div class="codStats"><div class="codRank">Prestige 4</div><div class="codLevel"><span>Niveau</span><strong>30</strong></div></div>
+        <div class="codPseudo">KENSHIN5993</div>
+      </article>
+      <article class="codCard bo2">
+        <div class="codCardHead"><div class="gameLabel">Call of Duty · PS3</div><h2>BLACK OPS II</h2></div>
+        <div class="emblemBox"><div class="bo2Emblem" aria-label="Emblème décoratif en attendant l'image originale">II</div></div>
+        <div class="codStats"><div class="codRank">Maître Prestige</div><div class="codLevel"><span>Plateforme</span><strong>PS3</strong></div></div>
+        <div class="codPseudo">KENSHIN5993</div>
+      </article>
+    </div>
+    <div class="codNote"><strong>Note :</strong> les emblèmes de Black Ops 7, Modern Warfare III et Black Ops 4 sont les images que tu as fournies. Pour Black Ops 6, j’ai placé le logo du loup comme demandé. Pour Black Ops II sur PS3, envoie-moi la capture de ton emblème Maître Prestige si tu veux que je mette l’image exacte du jeu.</div>
+  </section>
+  <a class="codBack" href="index.html">← Retour à l’accueil TEAM RDM</a>
+</main>
+<footer>© 2026 TEAM RDM — Profil de jeu : <strong>KENSHIN5993</strong></footer>
+<script>
+const menuBtn=document.getElementById('menuBtn');
+const navLinks=document.getElementById('navLinks');
+if(menuBtn&&navLinks) menuBtn.addEventListener('click',()=>navLinks.classList.toggle('open'));
+</script>
+</body>
+</html>
