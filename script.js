@@ -49,13 +49,13 @@ function showChannel(name, display){
     const note = document.createElement('p');
     note.id = 'rdmTwitchChatNote';
     note.style.cssText = 'margin:0 0 10px;font-size:.8rem;line-height:1.4;text-align:center;color:#c7d6e8;';
-    note.textContent = 'Pour éviter le blocage des cookies, connecte-toi à Twitch dans un nouvel onglet. Tu peux ensuite essayer d’afficher le chat intégré ci-dessous.';
+    note.textContent = 'En navigation privée, Chrome peut bloquer les cookies Twitch dans le chat intégré. Ouvre d’abord Twitch dans un nouvel onglet pour gérer les cookies. Si le panneau violet reste bloqué ici, utilise le chat directement sur Twitch : ce blocage ne peut pas être validé depuis le site RDM.';
     const openLink = document.createElement('a');
     openLink.id = 'rdmTwitchOpenLink';
     openLink.href = 'https://www.twitch.tv/';
     openLink.target = '_blank';
     openLink.rel = 'noopener noreferrer';
-    openLink.textContent = '🍪 Ouvrir Twitch et gérer les cookies';
+    openLink.textContent = '🍪 Ouvrir Twitch pour gérer les cookies';
     openLink.style.cssText = 'display:block;margin:0 auto 12px;padding:11px 14px;width:fit-content;max-width:100%;box-sizing:border-box;border:1px solid #00b7ff;border-radius:8px;background:linear-gradient(90deg,#063b68,#25105d);color:#fff;text-align:center;text-decoration:none;font-weight:800;font-size:.9rem;';
     const showChatButton = document.createElement('button');
     showChatButton.id = 'rdmTwitchShowChat';
@@ -66,8 +66,15 @@ function showChannel(name, display){
     frame.id = 'rdmTwitchChatFrame';
     frame.title = 'Chat Twitch officiel';
     frame.loading = 'lazy';
-    frame.style.cssText = 'display:none;box-sizing:border-box;width:100%;max-width:100%;height:340px;border:0;border-radius:8px;background:#0e0e10;';
+    frame.style.cssText = 'display:none;box-sizing:border-box;width:100%;max-width:100%;height:600px;min-height:60vh;border:0;border-radius:8px;background:#0e0e10;';
     frame.setAttribute('allow', 'clipboard-read; clipboard-write');
+    const directChatLink = document.createElement('a');
+    directChatLink.id = 'rdmTwitchDirectChatLink';
+    directChatLink.href = 'https://www.twitch.tv/';
+    directChatLink.target = '_blank';
+    directChatLink.rel = 'noopener noreferrer';
+    directChatLink.textContent = 'Ouvrir la chaîne et son chat sur Twitch';
+    directChatLink.style.cssText = 'display:block;margin:0 auto 12px;text-align:center;color:#7dddff;font-weight:700;text-decoration:underline;';
     showChatButton.addEventListener('click', () => {
       const currentName = $('currentName').textContent;
       const currentMember = team.find(m => m.display === currentName) || team.find(m => m.name === currentName.toLowerCase());
@@ -78,7 +85,7 @@ function showChannel(name, display){
       showChatButton.disabled = true;
       showChatButton.style.opacity = '.7';
     });
-    chatBox.append(title, note, openLink, showChatButton, frame);
+    chatBox.append(title, note, openLink, directChatLink, showChatButton, frame);
     const player = $('playerBox');
     player.insertAdjacentElement('afterend', chatBox);
   }
