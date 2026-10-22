@@ -4,7 +4,7 @@ const team = [
   {name:'manimang0', display:'MANIMANG0', role:'Membre', followers:'3 followers', logo:'https://unavatar.io/twitch/manimang0'},
   {name:'fandeipromxtrollmod', display:'FANDEIPROMXTROLLMOD', role:'Membre', followers:'2 k followers', logo:'https://unavatar.io/twitch/fandeipromxtrollmod'},
   {name:'theoherlintw', display:'THEOHERLINTW', role:'Membre', followers:'6 followers', logo:'https://unavatar.io/twitch/theoherlintw'},
-  {name:'kvsmaszo', display:'Tkvsmaszo', role:'Membre', followers:'1 followers', logo:'https://www.twitch.tv/kvsmaszo'},
+  {name:'kvsmaszo', display:'Tkvsmaszo', role:'vip', followers:'1 followers', logo:'https://www.twitch.tv/kvsmaszo'},
 ];
 
 const PRIVATE_VOICE_CODE = 'RDM59968';
