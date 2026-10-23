@@ -266,7 +266,25 @@ function joinPrivateVoice(){
 function leavePrivateVoice(){ $('voiceFrame').src=''; $('voiceRoom').style.display='none'; }
 
 const menuBtn = $('menuBtn');
-if(menuBtn){ menuBtn.addEventListener('click', () => $('navLinks').classList.toggle('open')); }
+const navLinks = $('navLinks');
+if (menuBtn && navLinks) {
+  menuBtn.setAttribute('aria-controls', 'navLinks');
+  menuBtn.setAttribute('aria-expanded', 'false');
+  menuBtn.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
+    menuBtn.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    menuBtn.textContent = isOpen ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.setAttribute('aria-label', 'Ouvrir le menu');
+      menuBtn.textContent = '☰';
+    });
+  });
+}
 renderMembers();
 renderLiveCards();
 showChannel('kenshin5996','KENSHIN5996');

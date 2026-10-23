@@ -20,3 +20,106 @@
 
 
 
+
+
+/* =========================================================
+   TEAM RDM — améliorations responsive mobile/tablette
+   Ajout sans remplacer les styles existants.
+   ========================================================= */
+img, video, iframe { max-width: 100%; }
+button, input, select, textarea { max-width: 100%; }
+a, button, input { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid #38d9ff; outline-offset: 3px; }
+
+@media (max-width: 760px) {
+  html { scroll-padding-top: 12px; }
+  body { width: 100%; }
+  .navbar {
+    position: sticky;
+    top: 0;
+    padding: 10px 14px;
+    min-height: 64px;
+    gap: 10px;
+  }
+  .brand { gap: 8px; font-size: 27px; }
+  .brand img { width: 40px; height: 40px; }
+  .menuBtn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .links {
+    gap: 0;
+    align-items: stretch;
+    max-height: min(72vh, 560px);
+    overflow-y: auto;
+    border-top: 1px solid transparent;
+  }
+  .links.open {
+    border-top-color: rgba(0, 183, 255, .35);
+    padding: 8px 0 2px;
+  }
+  .links a {
+    display: block;
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .links a:active { background: rgba(0, 183, 255, .14); }
+  .twitchBtn { padding: 10px 12px; font-size: 12px; }
+  .hero, .hero > img { height: clamp(145px, 43vw, 220px); min-height: 0; }
+  .hero > img { object-fit: cover; object-position: center; }
+  main { width: 100%; padding: 12px 10px; }
+  .panel { padding: clamp(14px, 4vw, 20px); margin-bottom: 16px; border-radius: 12px; }
+  .sectionTitle { gap: 8px; }
+  .sectionTitle img { width: 32px; height: 32px; flex: 0 0 auto; }
+  .sectionTitle h2, .playerPanel h2 { font-size: clamp(20px, 5.4vw, 26px); line-height: 1.2; }
+  .sectionSub { font-size: 14px; line-height: 1.5; }
+  .playerPanel h3 { font-size: clamp(21px, 6vw, 27px); overflow-wrap: anywhere; }
+  .playerBox { width: 100%; border-width: 2px; border-radius: 10px; }
+  .liveTopBar { align-items: stretch; padding: 12px; margin-bottom: 16px; }
+  .liveTopBar b { line-height: 1.45; overflow-wrap: anywhere; }
+  .liveTopBar button, .clipForm button, .vocalLogin button,
+  .voiceTop button, .liveActions button, .liveActions a {
+    min-height: 44px;
+    font-size: 14px;
+  }
+  .membersGrid, .liveGrid, .clipsGrid, .infoGrid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .memberCard { padding: 20px 14px; }
+  .memberCard h3 { white-space: normal; overflow-wrap: anywhere; }
+  .clipPublishBox { padding: 14px; }
+  .clipForm, .vocalLogin { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .clipForm input, .vocalLogin input { width: 100%; min-height: 44px; font-size: 16px; }
+  .clipForm button, .vocalLogin button { width: 100%; }
+  .infoCard { padding: 18px; min-width: 0; }
+  .infoCard h3 { font-size: 20px; overflow-wrap: anywhere; }
+  .infoCard p { font-size: 16px; line-height: 1.5; overflow-wrap: anywhere; }
+  .voiceTop { align-items: stretch; gap: 10px; }
+  .voiceRoom iframe { height: min(68vh, 520px); min-height: 320px; }
+  .donationNumbers { align-items: flex-start; }
+  .donorListWrap { padding: 12px; }
+  footer { padding: 20px 12px; font-size: 13px; line-height: 1.5; }
+}
+
+@media (max-width: 380px) {
+  .navbar { padding: 8px 10px; }
+  .brand { font-size: 23px; }
+  .brand img { width: 34px; height: 34px; }
+  .twitchBtn { font-size: 11px; padding: 9px; }
+  main { padding: 9px 7px; }
+  .panel { padding: 12px; }
+  .sectionTitle img { width: 27px; height: 27px; }
+  .sectionTitle h2, .playerPanel h2 { font-size: 19px; }
+  #rdmMusicWidget { width: min(190px, calc(100vw - 20px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
