@@ -121,5 +121,67 @@ a, button, input { -webkit-tap-highlight-color: transparent; }
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
+   
+  }
+}
+/* TEAM RDM - Correction affichage mobile */
+@media (max-width: 600px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 26px;
+    gap: 8px;
+  }
+
+  .brand img {
+    width: 42px;
+    height: 42px;
+  }
+
+  main {
+    padding: 10px;
+  }
+
+  .panel {
+    padding: 12px;
+    min-width: 0;
+  }
+
+  iframe,
+  video {
+    max-width: 100%;
+  }
+
+  #rdmHelpPanel {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: 80px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: 55dvh !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+    z-index: 100000 !important;
+  }
+
+  #rdmHelpPanel header {
+    flex-wrap: wrap;
+  }
+
+  #rdmMusicWidget {
+    left: 10px !important;
+    bottom: 10px !important;
+    width: min(190px, calc(100vw - 20px)) !important;
+    padding: 9px !important;
+    z-index: 99990 !important;
   }
 }
